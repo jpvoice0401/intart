@@ -1,0 +1,108 @@
+﻿.claw-scene { position: relative; isolation: isolate; width: 100%; height: 100%; overflow: hidden; color: #eee7e1; background: radial-gradient(ellipse at 53% 42%, #58536580, transparent 55%), radial-gradient(ellipse at 49% 95%, #72687c55, transparent 54%), #24232e; }
+.claw-viewport { position: absolute; inset: 80px 0 10px; outline: none; touch-action: none; }
+.claw-viewport canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+.claw-viewport canvas:active { cursor: grabbing; }
+.claw-viewport:focus-visible { outline: 1px solid #dfcfb736; outline-offset: -8px; }
+.claw-title { position: absolute; left: 5%; top: 154px; pointer-events: none; }
+.claw-title > p { display: flex; align-items: center; gap: 9px; font: 8px monospace; letter-spacing: 2px; color: #b5a9bc; margin: 0 0 24px; }
+.claw-title i { width: 5px; height: 5px; border-radius: 50%; background: #ddc6a5; }
+.claw-title h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(38px, 4.7vw, 71px); font-weight: 400; letter-spacing: -2.5px; line-height: 1.06; color: #f0e6da; }
+.claw-title h1 em { font-weight: 400; color: #cfb9c6; }
+.claw-title > div { margin-top: 23px; font-size: 11px; line-height: 2; color: #a99fae; }
+.claw-edition { display: inline-flex; align-items: center; gap: 15px; margin-top: 29px; padding: 10px 0; border-top: 1px solid #d6c7db26; border-bottom: 1px solid #d6c7db26; font: 7px monospace; letter-spacing: 1.5px; color: #b0a3b8; }
+.claw-edition b { font-size: 6px; font-weight: 400; color: #d3bba2; }
+.claw-top-tools { position: absolute; top: 117px; right: 5%; display: flex; align-items: flex-end; flex-direction: column; gap: 13px; }
+.claw-prizes { min-width: 165px; padding: 15px 17px; border: 1px solid #b9a7c24a; background: #a58caf10; border-radius: 12px; color: #eee1d8; cursor: pointer; display: flex; align-items: center; gap: 17px; font: 16px Georgia, serif; }
+.claw-prizes > span { font: 10px monospace; color: #af9eb5; margin-left: auto; }
+.claw-prizes b { font-size: 18px; color: #d3bca4; font-weight: 400; }
+.claw-prizes:hover { background: #a58caf26; }
+.claw-prizes:disabled { opacity: .45; cursor: default; }
+.claw-front { border: 0; background: transparent; font-size: 9px; color: #b1a5b8; cursor: pointer; padding: 5px 0 5px 15px; }
+.claw-left-foot { position: absolute; bottom: 90px; left: 5%; pointer-events: none; }
+.claw-left-foot > span { font: 7px monospace; letter-spacing: 2px; color: #b8a8b9; }
+.claw-left-foot > strong { display: block; font-size: 14px; font-weight: 400; margin-top: 12px; color: #d9d0d3; }
+.claw-left-foot > p { font-size: 9px; margin-top: 9px; color: #948799; }
+.claw-counters { display: flex; align-items: center; gap: 23px; margin-top: 23px; }
+.claw-counters > div { display: flex; flex-direction: column; gap: 7px; }
+.claw-counters b { font: 27px monospace; font-variant-numeric: tabular-nums; color: #d9c8b4; }
+.claw-counters small { font: 7px monospace; letter-spacing: 1px; color: #9f8fa6; }
+.claw-counters > i { width: 1px; height: 31px; background: #bda8c126; }
+.claw-control-panel { position: absolute; right: 5%; bottom: 88px; width: 170px; }
+.claw-map-heading { display: flex; justify-content: space-between; align-items: center; font: 7px monospace; letter-spacing: 1px; color: #9c8ca5; margin-bottom: 9px; }
+#claw-lock-label { color: #cbbbaa; font-size: 6px; letter-spacing: .5px; }
+.claw-map { width: 170px; height: 110px; display: block; border: 1px solid #d1bdd52d; border-radius: 10px; padding: 8px; background: #1b182c30; }
+.claw-keypad { display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 22px; }
+.claw-keypad > div { display: flex; gap: 5px; }
+.claw-keypad button { width: 41px; height: 35px; padding: 0; border: 1px solid #ccb4d047; border-bottom-width: 3px; border-radius: 7px; color: #c8baca; background: #a696b10e; font-size: 18px; cursor: pointer; touch-action: none; transition: color .06s, background .06s, transform .06s; }
+.claw-keypad button:hover { background: #d3bdd71c; }
+.claw-keypad .claw-space { width: 134px; height: 34px; margin-top: 3px; display: flex; align-items: center; justify-content: center; gap: 19px; font: 9px monospace; letter-spacing: 1.2px; }
+.claw-space small { font: 9px 'Noto Sans KR', sans-serif; color: #a995b4; }
+.claw-keypad button.is-pressed { background: #e6ccb1; color: #433447; border-color: #f6dfc4; transform: translateY(2px); box-shadow: 0 0 20px #d9b88925; }
+.claw-keypad button.is-pressed small { color: #665167; }
+.claw-keypad button:focus-visible { outline-offset: 3px; }
+.is-locked .claw-keypad button:not(.is-pressed) { opacity: .55; }
+.claw-control-panel > p { font-size: 8px; color: #a192a9; line-height: 1.9; text-align: center; margin-top: 15px; }
+.claw-status { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 13px; text-align: left; padding: 12px 23px; border-radius: 40px; border: 1px solid #c2acc12b; background: #272430d9; backdrop-filter: blur(14px); white-space: nowrap; }
+.claw-status-dot { width: 5px; height: 5px; border-radius: 50%; background: #c3d6b6; box-shadow: 0 0 13px #c3d6b644; }
+.is-locked .claw-status-dot { background: #e4b996; }
+.claw-status strong { display: block; font: 7px monospace; font-weight: 400; letter-spacing: 1.6px; color: #dbcab7; }
+.claw-status p { margin: 6px 0 0; font-size: 9px; color: #a99caf; }
+.claw-loading { position: absolute; inset: 0; z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #25242ef2; backdrop-filter: blur(7px); }
+.claw-loading-icon { font-size: 48px; color: #d0b9c9; animation: claw-turn 5s linear infinite; }
+.claw-loading p { margin-top: 21px; font-size: 16px; color: #ddced7; }
+.claw-loading small { font-size: 10px; color: #9d8da7; }
+.claw-loading[hidden], .claw-gallery[hidden], .claw-empty[hidden], .claw-error[hidden], .claw-prize-list[hidden], .claw-inspect[hidden] { display: none; }
+.claw-gallery { position: absolute; z-index: 40; inset: 0; display: grid; place-items: center; padding: 85px 30px 30px; background: #171320ad; backdrop-filter: blur(10px); }
+.claw-gallery-card { width: min(870px, 95%); height: min(610px, 90%); border: 1px solid #d8c4d540; border-radius: 22px; background: linear-gradient(135deg, #3c3546, #302b39); box-shadow: 0 30px 120px #100a2155; overflow: hidden; outline: none; display: flex; flex-direction: column; }
+.claw-gallery-card > header { display: flex; align-items: center; justify-content: space-between; padding: 26px 30px 20px; border-bottom: 1px solid #bca6c320; }
+.claw-gallery-card > header > div > span { font: 7px monospace; letter-spacing: 2px; color: #a693b3; }
+.claw-gallery-card h2 { margin: 10px 0 0; font: 28px Georgia, 'Noto Sans KR', serif; color: #ead9d0; letter-spacing: -.5px; }
+.claw-gallery-close { border: 1px solid #ccb2d132; border-radius: 50%; color: #d8c5d8; background: transparent; width: 32px; height: 32px; font-size: 23px; cursor: pointer; }
+.claw-gallery-body { display: flex; position: relative; flex: 1; min-height: 0; }
+.claw-prize-list { width: 225px; padding: 18px 12px; overflow: auto; border-right: 1px solid #bca6c320; scrollbar-width: thin; scrollbar-color: #7d687e transparent; }
+.claw-prize-item { width: 100%; display: flex; align-items: center; gap: 11px; border: 1px solid transparent; border-radius: 9px; background: transparent; padding: 10px; margin-bottom: 4px; cursor: pointer; color: #b9a9c0; }
+.claw-prize-item > span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: #3c3444; font: 9px monospace; flex-shrink: 0; }
+.claw-prize-item strong { font-size: 10px; font-weight: 400; }
+.claw-prize-item[aria-pressed="true"] { background: #bda5c21c; border-color: #c6aecd36; color: #ecdbdf; }
+.claw-inspect { flex: 1; min-width: 0; position: relative; background: radial-gradient(ellipse at 50% 43%, #b2a2b526, transparent 65%); }
+.claw-inspect-canvas { position: absolute; inset: 12px 15px 105px; touch-action: none; }
+.claw-inspect-canvas canvas { display: block; cursor: grab; }
+.claw-inspect-canvas canvas:active { cursor: grabbing; }
+.claw-inspect-label { position: absolute; bottom: 25px; left: 12px; right: 12px; text-align: center; pointer-events: none; }
+.claw-inspect-label > p { font: 7px monospace; letter-spacing: 2px; color: #ac96b3; margin: 0 0 9px; }
+.claw-inspect-label > h3 { font-size: 19px; font-weight: 400; color: #e6d6d7; margin: 0 0 13px; }
+.claw-inspect-label > span { font-size: 9px; color: #9f8ca8; }
+.claw-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.claw-empty > span { font-size: 50px; color: #ad97b6; }
+.claw-empty h3 { font-size: 16px; font-weight: 400; color: #d5c1d4; }
+.claw-empty p { font-size: 11px; color: #a18da9; }
+.claw-gallery.is-winner { z-index: 45; }
+.is-winner .claw-gallery-card { width: min(460px, 95%); height: min(590px, 90%); }
+.is-winner .claw-gallery-card > header { text-align: center; justify-content: center; position: relative; }
+.is-winner .claw-gallery-card h2 { font: 24px 'Noto Sans KR', sans-serif; margin-top: 12px; }
+.is-winner .claw-gallery-close { position: absolute; right: 18px; top: 18px; }
+.is-winner .claw-inspect-label > span { visibility: hidden; }
+.claw-error { position: absolute; inset: 35% 15% auto; z-index: 9; padding: 30px; text-align: center; background: #35303f; border: 1px solid #aa8fb4; border-radius: 16px; }
+[data-experiment="claw"] .lab-note { display: none; }
+[data-experiment="claw"] .lab-header { grid-template-columns: 1fr auto; }
+[data-experiment="claw"] .lab-brand-mark { color: #d7c1b4; }
+[data-experiment="claw"] .experiment-tabs { background: #292533df; border-color: #bba8c22b; }
+[data-experiment="claw"] .experiment-tab { color: #a996b5; padding-inline: 12px; }
+[data-experiment="claw"] .experiment-tab[aria-selected="true"] { background: #d9c4b9; color: #493b50; }
+@keyframes claw-turn { to { transform: rotate(360deg); } }
+@media (max-width: 1150px) { .claw-title h1 { font-size: 43px; } .claw-title { top: 135px; left: 4%; } .claw-title > p { font-size: 6px; letter-spacing: 1px; } .claw-title > div { font-size: 9px; } .claw-edition { display: none; } .claw-left-foot { left: 4%; bottom: 100px; } .claw-control-panel, .claw-top-tools { right: 4%; } [data-experiment="claw"] .lab-brand div > span { display: none; } [data-experiment="claw"] .experiment-tab { padding-inline: 9px; } [data-experiment="claw"] .experiment-tab small { display: none; } }
+@media (max-width: 850px) { .claw-title h1 { font-size: 34px; } .claw-title > div { display: none; } .claw-left-foot > span, .claw-left-foot > strong, .claw-left-foot > p { display: none; } .claw-control-panel { width: 136px; bottom: 95px; } .claw-map { width: 136px; height: 88px; } .claw-map-heading { font-size: 6px; } .claw-top-tools { top: 112px; } .claw-prizes { min-width: 120px; font-size: 14px; padding: 12px; gap: 10px; } }
+@media (max-width: 600px) {
+  .claw-title { top: 119px; left: 6%; } .claw-title > p { font-size: 6px; margin-bottom: 12px; } .claw-title h1 { font-size: 31px; letter-spacing: -1px; } .claw-title h1 br { display: none; }
+  .claw-top-tools { top: 175px; right: 6%; gap: 5px; } .claw-prizes { min-width: 112px; padding: 10px 12px; font-size: 13px; } .claw-front { font-size: 8px; }
+  .claw-viewport { top: 185px; bottom: 180px; }
+  .claw-control-panel { right: 6%; bottom: 68px; width: 146px; display: flex; flex-direction: column; }
+  .claw-map, .claw-map-heading { display: none; } .claw-keypad { margin-top: 0; gap: 3px; } .claw-keypad > div { gap: 3px; } .claw-keypad button { width: 35px; height: 28px; font-size: 15px; } .claw-keypad .claw-space { width: 112px; height: 28px; font-size: 8px; } .claw-control-panel > p { font-size: 6px; margin: 8px 0 0; }
+  .claw-left-foot { left: 7%; bottom: 105px; } .claw-counters { gap: 18px; margin: 0; } .claw-counters b { font-size: 24px; } .claw-counters small { font-size: 6px; }
+  .claw-status { bottom: 15px; padding: 11px 14px; width: 90%; justify-content: center; gap: 10px; } .claw-status p { font-size: 8px; } .claw-status strong { font-size: 6px; }
+  .claw-gallery { padding: 105px 12px 18px; } .claw-gallery-card { width: 100%; height: 95%; } .claw-gallery-card > header { padding: 21px 18px 17px; } .claw-gallery-card h2 { font-size: 24px; }
+  .claw-gallery-body { flex-direction: column-reverse; } .claw-prize-list { width: 100%; height: 112px; border: 0; border-top: 1px solid #bca6c320; display: flex; gap: 6px; padding: 12px; flex-shrink: 0; } .claw-prize-item { width: 100px; flex-shrink: 0; flex-direction: column; padding: 8px; gap: 7px; margin: 0; } .claw-prize-item strong { font-size: 8px; } .claw-prize-item > span { width: 26px; height: 26px; }
+  .claw-inspect-label { bottom: 16px; } .claw-inspect-label > h3 { font-size: 16px; margin-bottom: 9px; } .claw-inspect-canvas { bottom: 90px; }
+  [data-experiment="claw"] .lab-header { display: flex; } [data-experiment="claw"] .experiment-tab { padding-inline: 9px; }
+}
+@media (max-height: 620px) and (min-width: 601px) { .claw-title { top: 105px; } .claw-title h1 { font-size: 36px; } .claw-title > div, .claw-edition, .claw-left-foot > p, .claw-left-foot > strong { display: none; } .claw-control-panel { bottom: 64px; } .claw-map, .claw-map-heading { display: none; } .claw-left-foot { bottom: 83px; } .claw-status { bottom: 13px; } .claw-top-tools { top: 100px; } }

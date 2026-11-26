@@ -1,0 +1,57 @@
+.water-scene { position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate;background:#082c38;color:#edf5ec;font-family:var(--font-sans); }
+.water-canvas { position:absolute;inset:0;width:100%;height:100%;z-index:0;cursor:crosshair; }
+.water-video { position:absolute;width:1px;height:1px;opacity:0;pointer-events:none; }
+.water-shade { position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#061b2b8c,transparent 35%,transparent 68%,#041e29c9); }
+.water-heading { position:absolute;top:123px;left:4.2%;right:4.2%;z-index:2;display:flex;justify-content:space-between;align-items:center;pointer-events:none; }
+.water-wordmark { display:flex;align-items:center;gap:17px; }
+.water-wordmark>svg { width:48px;height:48px;color:#b9ebd5; }
+.water-kicker { display:block;font-size:8px;letter-spacing:2.6px;font-weight:500;color:#bdd5cd; }
+.water-heading h1 { margin:6px 0 0;color:#f5f7ef;font:400 clamp(32px,3.6vw,54px)/1.15 Georgia,serif;letter-spacing:-2px; }
+.water-heading h1 span { color:#c0e6ce;font-style:italic; }
+.water-heading h1 sup { font:10px var(--font-sans);vertical-align:top;margin:8px 0 0 7px;display:inline-block;letter-spacing:0;color:#c3d5c5; }
+.water-heading>p { font-size:12px;line-height:1.9;text-align:right;color:#cfdfd5;margin:0; }
+.water-live { position:absolute;top:231px;left:4.2%;display:flex;align-items:center;gap:9px;z-index:3;font-size:10px;color:#d0e4dc; }
+.water-live>i { width:5px;height:5px;background:#9baea7;border-radius:50%; }
+.water-scene.is-live .water-live>i { background:#c1ef9e;box-shadow:0 0 14px #b8f786; }
+.water-count { padding:4px 9px;margin-left:5px;border:1px solid #dfefdd30;border-radius:20px;font-size:9px;font-variant-numeric:tabular-nums; }
+.water-welcome { position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:3;text-align:center;width:min(440px,90%);pointer-events:none; }
+.water-welcome[hidden] { display:none; }
+.water-orbit { position:relative;display:grid;place-items:center;width:90px;height:90px;margin:0 auto 26px;border:1px solid #cfefda40;border-radius:50%;box-shadow:0 0 0 12px #cfefda05,0 0 0 26px #cfefda03; }
+.water-orbit svg { width:43px;height:43px;color:#d0eddb; }
+.water-welcome .water-kicker { font-size:7px;letter-spacing:2.2px;color:#b0d2c8; }
+.water-welcome h2 { margin:19px 0 13px;font-weight:400;font-size:clamp(27px,3.2vw,43px);line-height:1.55;letter-spacing:-1.7px; }
+.water-welcome h2 em { color:#c7eacb;font-style:normal; }
+.water-welcome p { margin:0 0 25px;color:#c1d8cf;font-size:11px;line-height:2; }
+.water-start { pointer-events:auto;display:inline-flex;gap:32px;align-items:center;justify-content:center;border:0;border-radius:4px;background:#d3edba;color:#173b36;font-size:11px;font-weight:600;min-height:46px;padding:12px 23px;cursor:pointer;box-shadow:0 7px 26px #00282930; }
+.water-start:hover { background:#e5facf; }
+.water-start:disabled { opacity:.65;cursor:wait; }
+.water-start span { font-size:20px;font-weight:400; }
+.water-welcome small { display:block;font-size:8px;color:#a9c5bc;margin-top:13px; }
+.water-status { position:absolute;bottom:153px;left:15%;right:15%;margin:0;text-align:center;z-index:3;font-size:10px;line-height:1.8;color:#d7e9dd;pointer-events:none;text-shadow:0 1px 8px #001d29; }
+.water-footer { position:absolute;z-index:4;left:4.2%;right:4.2%;bottom:58px;display:flex;align-items:center;justify-content:space-between;gap:24px; }
+.water-instructions>span { font-size:7px;letter-spacing:2.3px;color:#b8d7c3; }
+.water-instructions p { font-size:11px;line-height:1.8;color:#e3eede;margin:8px 0 3px; }
+.water-instructions small { font-size:8px;color:#a8c6ba; }
+.water-controls { display:flex;align-items:center;gap:4px;padding:9px;background:#0a3039c9;border:1px solid #d6e8d52b;border-radius:8px;backdrop-filter:blur(18px); }
+.water-controls button { border:0;background:transparent;font-size:10px;min-height:36px;padding:8px 12px;border-radius:4px;cursor:pointer;color:#cfdfd1;white-space:nowrap; }
+.water-controls button:hover { background:#c8e9c817; }
+.water-controls button[aria-pressed=true] { background:#c8e9c817;color:#d9efc8; }
+.water-controls .water-camera { border:1px solid #d5e6c93b;margin-left:4px; }
+.water-intensity { display:flex;align-items:center;gap:11px;padding:0 13px 0 8px;border-right:1px solid #cbe8cb24;font-size:10px;white-space:nowrap; }
+.water-intensity input { width:78px;accent-color:#c8e9b0;cursor:pointer; }
+.water-intensity output { width:20px;font-size:9px;color:#bed8bf;font-variant-numeric:tabular-nums; }
+.water-edition { position:absolute;left:4.2%;right:4.2%;bottom:19px;display:flex;justify-content:space-between;z-index:2;pointer-events:none;font-size:7px;letter-spacing:2px;color:#93b4a9; }
+.water-markers { position:absolute;inset:0;z-index:2;pointer-events:none; }
+.water-markers i { position:absolute;width:11px;height:11px;border:1px solid #e5ffd0b3;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 12px #d7ffaf59;background:#efffd620; }
+.water-markers i::after { content:'';position:absolute;inset:3px;background:#e5ffd0;border-radius:50%; }
+.lab-shell[data-experiment=watertouch] .experiment-tabs { background:#082b36e0;border-color:#d8edcc30; }
+.lab-shell[data-experiment=watertouch] .experiment-tab[aria-selected=true] { background:#d3edba;color:#143931; }
+@media(max-width:1100px) { .water-footer { flex-direction:column;align-items:flex-start;gap:17px;bottom:50px; } .water-instructions p { margin:3px 0; } .water-instructions small { display:none; } .water-status { bottom:202px; } .water-heading>p { font-size:10px; } }
+@media(max-width:799px) {
+  .water-heading { top:93px;left:24px;right:24px; }.water-heading h1 { font-size:34px; }.water-wordmark { gap:10px; }.water-wordmark>svg { width:32px; }.water-heading .water-kicker { font-size:6px;letter-spacing:1.4px; }.water-heading>p { display:none; }
+  .water-live { top:171px;left:24px;font-size:9px; }.water-welcome { top:49%; }.water-orbit { width:64px;height:64px;margin-bottom:21px; }.water-welcome h2 { font-size:29px;margin-top:15px; }.water-welcome p { font-size:10px;margin-bottom:18px; }
+  .water-footer { left:20px;right:20px;bottom:43px;gap:12px; }.water-instructions>span { font-size:6px; }.water-instructions p { font-size:9px; }.water-controls { flex-wrap:wrap;width:100%;justify-content:space-between;gap:3px;padding:7px; }.water-controls button { font-size:9px;padding:7px 9px;min-height:34px; }.water-intensity { font-size:9px;gap:7px;padding:0 8px 0 3px; }.water-intensity input { width:59px; }.water-intensity output { display:none; }.water-controls .water-camera { margin-left:0; }
+  .water-status { bottom:174px;left:20px;right:20px;font-size:9px; }.water-edition { left:20px;right:20px;bottom:17px;font-size:6px;letter-spacing:1px; }.water-edition>span:last-child { display:none; }
+}
+@media(max-height:760px) { .water-orbit { display:none; }.water-welcome { top:49%; }.water-welcome h2 { font-size:28px;margin-top:12px; }.water-heading { top:103px; }.water-live { top:195px; }.water-welcome p { margin-bottom:16px; }.water-welcome small { margin-top:10px; } }
+@media(max-height:600px) { .water-heading { top:90px; }.water-heading h1 { font-size:28px; }.water-live { top:162px; }.water-welcome { top:48%; }.water-welcome h2 { font-size:22px;line-height:1.4;margin:7px 0; }.water-welcome p { display:none; }.water-footer { bottom:38px;gap:8px; }.water-instructions { display:none; }.water-status { bottom:103px; }.water-controls { margin-left:auto; }.water-edition { bottom:12px; } }

@@ -1,0 +1,1863 @@
+<krpano version="1.20.11" title="Virtual Tour">
+
+	<include url="skin/vtourskin.xml" />
+	<!-- <include url="plugins/movescene_old.xml" /> -->
+	<include url="%FIRSTXML%/hdvr_floor_hotspot.xml" />
+	<include url="%FIRSTXML%/add_hotspot/plugins_l/add_hotspot.xml" />
+	<include url="%FIRSTXML%/hdvr_embeded_vod/hdvr_embeded_vod.xml" />
+	<include url="%FIRSTXML%/plugins/youtube-player.xml" />
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="false"
+	               maps_type="google"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="true"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="false"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="false"
+	               thumbs_width="0" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadflags="MERGE"
+	               loadblend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadblend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadblend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext=""
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+
+	<!-- 씬 타이틀 가져오기 -->
+	<action name="getLog">
+		js(
+			getLog(get(xml.scene), get(name));
+		);
+	</action>
+
+	<action name="liveCheck">
+		jscall(
+			checkOnLive();
+		);
+	</action>
+
+	<action name="do_crop_animation" scope="local" args="framewidth, frameheight, framerate">
+		<!-- define local variables -->
+		calc(local.xframes, (caller.imagewidth /framewidth) BOR 0);
+		calc(local.frames, xframes * ((caller.imageheight / frameheight) BOR 0));
+		def(local.frame, integer, 0);
+
+		<!-- set the first frame -->
+		calc(caller.crop, '0|0|' + framewidth + '|' + frameheight);
+
+		<!-- do the animation -->
+		setinterval(calc('crop_anim_' + caller.name), calc(1.0 / framerate),
+			if(caller.loaded,
+				inc(frame);
+				if(frame GE frames, if(caller.onlastframe !== null, callwith(caller, onlastframe() ) ); set(frame,0); );
+				mod(xpos, frame, xframes);
+				div(ypos, frame, xframes);
+				Math.floor(ypos);
+				mul(xpos, framewidth);
+				mul(ypos, frameheight);
+				calc(caller.crop, xpos + '|' + ypos + '|' + framewidth + '|' + frameheight);
+			  ,
+				<!-- stop the interval when the hotspot gets removed -->
+				clearinterval(calc('crop_anim_' + caller.name));
+			);
+		);
+	</action>
+
+	<action name="skin_onstart_loadscene" scope="local" autorun="onstart">
+		js(
+			start_scene();
+		);
+	</action>
+	
+	<scene name="DS-00-01" title="DS-00-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-00-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-00-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-00-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="DS-00-02" title="DS-00-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-00-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-00-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-00-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="DS-00-03" title="DS-00-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-00-03.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-00-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-00-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="DS-00-04" title="DS-00-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-00-04.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-00-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-00-04.tiles/pano_%s.jpg" />
+		</image>
+	</scene>
+
+	<scene name="DS-B1-01" title="DS-B1-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-B1-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-01.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot13" ath="-179.2008" atv="12.148" url="skin/move.png" onclick="loadscene(DS-B1-02-01,null,MERGE|KEEPVIEW,OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)); lookat(0,0,120,0,0);"/> 
+
+	</scene>
+
+	<scene name="DS-B1-02-01" title="DS-B1-02-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-B1-02-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-02-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-02-01.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot11" ath="66.7814" atv="13.6102" url="skin/move.png" onclick="loadscene(DS-B1-01,null,MERGE|KEEPVIEW,OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)); lookat(0,0,120,0,0);"/> 
+		<hotspot name="fspot12" ath="-84.0186" atv="9.4825" url="skin/move.png" onclick="loadscene(DS-B1-03,null,MERGE|KEEPVIEW,OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)); lookat(0,0,120,0,0);"/> 
+
+	</scene>
+
+	<!-- <scene name="DS-B1-02-02" title="DS-B1-02-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-B1-02-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-02-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-02-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene> -->
+
+	<scene name="DS-B1-03" title="DS-B1-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-B1-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-03.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot8" ath="92.0568" atv="13.8283" url="skin/move.png" onclick="loadscene(DS-B1-04,null,MERGE|KEEPVIEW,OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)); lookat(0,0,120,0,0);"/> 
+		<hotspot name="fspot9" ath="-88.3095" atv="15.9461" url="skin/move.png" onclick="loadscene(DS-B1-02-01,null,MERGE|KEEPVIEW,OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)); lookat(0,0,120,0,0);"/> 
+
+
+	</scene>
+
+	<scene name="DS-B1-04" title="DS-B1-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-B1-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-04.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot10" ath="-89.3936" atv="13.5811" url="skin/move.png" onclick="loadscene(DS-B1-03,null,MERGE|KEEPVIEW,OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)); lookat(0,0,120,0,0);"/> 
+
+	</scene>
+
+	<scene name="DS-B1-05" title="DS-B1-05" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-B1-05.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-05.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-05.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="3.613" atv="-2.783" scale="0.85" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-B1-06" title="DS-B1-06" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-B1-06.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B1-06.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B1-06.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="-0.4135" atv="10.9264" scale="0.85" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-B2-01" title="DS-B2-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-B2-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B2-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B2-01.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="0.7236" atv="8.0099" scale="0.85" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-B3-01" title="DS-B3-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-B3-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B3-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B3-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="DS-B3-02" title="DS-B3-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-B3-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-B3-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-B3-02.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="-0.2067" atv="6.3826" scale="0.85" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F01-01" title="DS-F01-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="DS-F01-02" title="DS-F01-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-F01-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-02.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="0.2067" atv="10.8268" scale="0.85" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F01-03" title="DS-F01-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-03.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot1" style="floorspot_style1" animation="true" tx="-290.13966125234816" ty="160" tz="128.733611530445" ry="-66.07336251627589" linkedscene="DS-F01-04" />
+
+	</scene>
+
+	<scene name="DS-F01-04" title="DS-F01-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-04.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot2" style="floorspot_style1" animation="true" tx="327.99962571041374" ty="160" tz="-154.00342982170332" ry="115.15114402848408" linkedscene="DS-F01-03" />
+
+		<hotspot name="fspot6" style="floorspot_style1" animation="true" tx="-569.9235953815421" ty="160" tz="-7.541022659295104" ry="-90.75807277106503" linkedscene="DS-F01-05" />
+
+	</scene>
+
+	<scene name="DS-F01-05" title="DS-F01-05" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-05.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-05.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-05.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot7" style="floorspot_style1" animation="true" tx="315.4271451857082" ty="160" tz="162.0519458885829" ry="62.80798803699032" linkedscene="DS-F01-04" />
+
+		<hotspot name="fspot11" style="floorspot_style1" animation="true" tx="-300.19528934437324" ty="160" tz="155.26177339180592" ry="-62.65187878626932" linkedscene="DS-F01-06" />
+	</scene>
+
+	<scene name="DS-F01-06" title="DS-F01-06" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-06.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-06.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-06.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot12" style="floorspot_style1" animation="true" tx="265.23373041916454" ty="160" tz="171.62282589056278" ry="57.09460476002641" linkedscene="DS-F01-05" />
+
+		<hotspot name="fspot13" style="floorspot_style1" animation="true" tx="-152.39450048814794" ty="160" tz="217.55746678889693" ry="-35.01044655677896" linkedscene="DS-F01-07" />
+
+	</scene>
+
+	<scene name="DS-F01-07" title="DS-F01-07" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-07.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-07.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-07.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="fspot14" style="floorspot_style1" animation="true" tx="6.26900827267292" ty="160" tz="-211.7807324830528" ry="178.30445926451432" linkedscene="DS-F01-06" />
+
+	</scene>
+
+	<scene name="DS-F01-08" title="DS-F01-08" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-F01-08.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-08.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-08.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="0.2067" atv="1.0336" scale="0.8" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F01-09" title="DS-F01-09" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F01-09.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F01-09.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F01-09.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="DS-F02-01" title="DS-F02-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-F02-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F02-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F02-01.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="-0.2854" atv="-8.6378" scale="0.65" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F03-01" title="DS-F03-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-F03-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F03-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F03-01.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="-0.2067" atv="6.5867" scale="0.65" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F03-02" title="DS-F03-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-F03-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F03-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F03-02.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="0.207" atv="7.3" scale="0.7" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F03-03" title="DS-F03-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog(); liveCheck();" thumburl="panos/DS-F03-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F03-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F03-03.tiles/pano_%s.jpg" />
+		</image>
+
+		<hotspot name="live_pray" url="skin/on_air.png" url.mobile="skin/on_air_m.png" scale.mobile="1" width.mobile="190" height.mobile="64" ath="1.0336" atv="6.9933" scale="0.73" width="302" height="100" edge="center" onloaded="do_crop_animation(235, 80, 20);" onloaded.mobile="do_crop_animation(190, 64, 15)" visible="false"/>
+
+	</scene>
+
+	<scene name="DS-F05-01" title="DS-F05-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/DS-F05-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/DS-F05-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/DS-F05-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-00-01" title="E1-00-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-00-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-00-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-00-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-01F-01" title="E1-01F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F01-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F01-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F01-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-01F-02" title="E1-01F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F01-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F01-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F01-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-01F-03" title="E1-01F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F01-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F01-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F01-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-02F-01" title="E1-02F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F02-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F02-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F02-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-02F-02" title="E1-02F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F02-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F02-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F02-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-03F-01" title="E1-03F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F03-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F03-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F03-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-03F-02" title="E1-03F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F03-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F03-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F03-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-04F-01" title="E1-04F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F04-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F04-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F04-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-05F-01" title="E1-05F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F05-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F05-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F05-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-06F-01" title="E1-06F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F06-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F06-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F06-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-07F-01" title="E1-07F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F07-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F07-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F07-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-08F-01" title="E1-08F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F08-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F08-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F08-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-09F-01" title="E1-09F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F09-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F09-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F09-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-10F-01" title="E1-10F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F10-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F10-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F10-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E1-10F-02" title="E1-10F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E1-F10-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E1-F10-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E1-F10-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-00-01" title="E2-00-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-00-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-00-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-00-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-01F-01" title="E2-01F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-01F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-01F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-01F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-01F-02" title="E2-01F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-01F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-01F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-01F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-01F-03" title="E2-01F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-01F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-01F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-01F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-01F-04" title="E2-01F-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-01F-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-01F-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-01F-04.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-02F-01" title="E2-02F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-02F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-02F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-02F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-02F-02" title="E2-02F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-02F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-02F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-02F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-02F-03" title="E2-02F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-02F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-02F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-02F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-03F-01" title="E2-03F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-03F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-03F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-03F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-03F-02" title="E2-03F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-03F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-03F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-03F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-03F-03" title="E2-03F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-03F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-03F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-03F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-04F-01" title="E2-04F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-04F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-04F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-04F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-04F-02" title="E2-04F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-04F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-04F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-04F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-04F-03" title="E2-04F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-04F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-04F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-04F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-05F-01" title="E2-05F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-05F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-05F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-05F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-05F-02" title="E2-05F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-05F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-05F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-05F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-05F-03" title="E2-05F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-05F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-05F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-05F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-05F-04" title="E2-05F-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-05F-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-05F-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-05F-04.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-06F-01" title="E2-06F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-06F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-06F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-06F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-06F-02" title="E2-06F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-06F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-06F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-06F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-06F-03" title="E2-06F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-06F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-06F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-06F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-07F-01" title="E2-07F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-07F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-07F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-07F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-07F-02" title="E2-07F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-07F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-07F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-07F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-07F-03" title="E2-07F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-07F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-07F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-07F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-07F-04" title="E2-07F-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-07F-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-07F-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-07F-04.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-08F-01" title="E2-08F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-08F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-08F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-08F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-08F-02" title="E2-08F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-08F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-08F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-08F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-08F-03" title="E2-08F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-08F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-08F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-08F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-09F-01" title="E2-09F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-09F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-09F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-09F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-09F-02" title="E2-09F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-09F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-09F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-09F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-10F-01" title="E2-10F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-10F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-10F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-10F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-10F-02" title="E2-10F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-10F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-10F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-10F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-10F-03" title="E2-10F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-10F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-10F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-10F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-10F-04" title="E2-10F-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-10F-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-10F-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-10F-04.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-11F-01" title="E2-11F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-11F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-11F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-11F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-11F-02" title="E2-11F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-11F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-11F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-11F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-12F-01" title="E2-12F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-12F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-12F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-12F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-12F-02" title="E2-12F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-12F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-12F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-12F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-12F-03" title="E2-12F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-12F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-12F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-12F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-13F-01" title="E2-13F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-13F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-13F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-13F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="E2-13F-02" title="E2-13F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/E2-13F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/E2-13F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/E2-13F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-00-01" title="GL-00-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-00-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-00-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-00-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-010F-01" title="GL-010F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-010F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-010F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-010F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-011F-01" title="GL-011F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-011F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-011F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-011F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-011F-02" title="GL-011F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-011F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-011F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-011F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-01F-01" title="GL-01F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-01F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-01F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-01F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-01F-02" title="GL-01F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-01F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-01F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-01F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-01F-03" title="GL-01F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-01F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-01F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-01F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-01F-04" title="GL-01F-04" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-01F-04.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-01F-04.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-01F-04.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-01F-05" title="GL-01F-05" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-01F-05.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-01F-05.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-01F-05.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-02F-01" title="GL-02F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-02F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-02F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-02F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-02F-02" title="GL-02F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-02F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-02F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-02F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-02F-03" title="GL-02F-03" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-02F-03.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-02F-03.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-02F-03.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-03F-01" title="GL-03F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-03F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-03F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-03F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-04F-01" title="GL-04F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-04F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-04F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-04F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-05F-01" title="GL-05F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-05F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-05F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-05F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-06F-01" title="GL-06F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-06F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-06F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-06F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-07F-01" title="GL-07F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-07F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-07F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-07F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-07F-02" title="GL-07F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-07F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-07F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-07F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-08F-01" title="GL-08F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-08F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-08F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-08F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-08F-02" title="GL-08F-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-08F-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-08F-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-08F-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-09F-01" title="GL-09F-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-09F-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-09F-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-09F-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-B1-01" title="GL-B1-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-B1-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-B1-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-B1-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="GL-B1-02" title="GL-B1-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/GL-B1-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/GL-B1-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/GL-B1-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-00-01" title="VS-00-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-00-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-00-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-00-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-00-02" title="VS-00-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-00-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-00-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-00-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-01f-01" title="VS-01f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F01-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F01-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F01-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-02f-01" title="VS-02f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F02-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F02-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F02-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-03f-01" title="VS-03f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F03-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F03-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F03-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-04f-01" title="VS-04f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F04-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F04-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F04-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-05f-01" title="VS-05f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F05-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F05-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F05-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-05f-02" title="VS-05f-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F05-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F05-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F05-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-06f-01" title="VS-06f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F06-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F06-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F06-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-07f-01" title="VS-07f-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-F07-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-F07-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-F07-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="VS-TOPF-01" title="VS-TOPF-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/VC-TOPF-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/VC-TOPF-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/VC-TOPF-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="YS-00-01" title="YS-00-01" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/YS-00-01.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/YS-00-01.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/YS-00-01.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+	<scene name="YS-00-02" title="YS-00-02" onstart="js(loadHotspot(get(scene[get(xml.scene)].name))); getLog();" thumburl="panos/YS-00-02.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="range" vlookatmax="+70" />
+
+		<preview url="panos/YS-00-02.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/YS-00-02.tiles/pano_%s.jpg" />
+		</image>
+
+	</scene>
+
+
+</krpano>

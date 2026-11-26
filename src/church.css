@@ -1,0 +1,96 @@
+.church-scene { position:relative;isolation:isolate;width:100%;height:100%;overflow:hidden;background:#171e22;color:#f1e5d5;font-family:'Noto Sans KR',sans-serif;color-scheme:dark; }
+.church-gender { display:flex;align-items:center;gap:8px;border:0;padding:0;margin:17px 0 0;text-align:left; }
+.church-entry-card .church-gender label { display:flex;align-items:center;gap:6px;margin:0;padding:9px;border:1px solid #c7bfa150;border-radius:7px;cursor:pointer; }
+.church-entry-card .church-gender input { width:auto;margin:0;accent-color:#d3bd95; }
+.church-entry-card .church-gender label:has(input:checked) { background:#d3bd9522;border-color:#d3bd95; }
+.church-gender .church-voice-preview { padding:8px 0;margin-left:auto;border:0;background:none;color:#d3bd95;font-size:10px; }
+.church-actions .church-speech-actions { display:flex;flex-direction:column;gap:5px; }
+.church-actions .church-speech-actions button { display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:76px;padding:7px 12px;font-size:11px;flex:1;color:#e4d1a3;background:#d3bd9512; }
+.church-actions .church-speech-actions button span { font:11px sans-serif;color:#c0aa81; }
+[data-experiment="church"] .lab-header { display:flex;flex-direction:row; }
+[data-experiment="church"] .experiment-tabs { flex:1;min-width:0; }
+.church-scene [hidden] { display:none!important; }.church-scene button,.church-scene a { font:inherit; }.church-scene button { cursor:pointer; }.church-scene button:disabled { cursor:default;opacity:.4; }.church-scene :focus-visible { outline:2px solid #d5bc92;outline-offset:4px; }
+[data-experiment="church"] .lab-note,[data-experiment="church"] .lab-brand small { display:none; }[data-experiment="church"] .experiment-tabs { background:#252e32e8;border-color:#b7a48640; }[data-experiment="church"] .experiment-tab { color:#a1a6a4; }[data-experiment="church"] .experiment-tab[aria-selected="true"] { background:#d8c29b;color:#343330; }[data-experiment="church"] .lab-header { z-index:35; }
+.church-viewport { position:absolute;inset:85px 0 115px;outline:none;touch-action:none; }.church-viewport canvas { display:block;width:100%;height:100%;cursor:grab; }.church-viewport canvas:active { cursor:grabbing; }
+.church-heading { position:absolute;top:110px;left:4%;pointer-events:none;text-shadow:0 2px 14px #111a20; }.church-heading>p { display:flex;align-items:center;gap:12px;font:8px monospace;letter-spacing:2px;color:#b1b9b6; }.church-heading i { width:4px;height:4px;background:#c1a77b;border-radius:50%; }.church-heading h1 { font-size:13px;font-weight:400;letter-spacing:2px;line-height:1.6;margin:22px 0 0;color:#dfd5c3; }.church-heading h1 span { display:block;font:400 clamp(34px,4.8vw,62px)/1.25 Georgia,'Noto Sans KR',serif;letter-spacing:-2px;margin-top:6px;color:#f4e8d3; }.church-heading>div { font-size:10px;color:#aeb3a9;margin-top:16px;letter-spacing:.7px; }
+.church-tools { position:absolute;right:4%;top:116px;display:flex;gap:15px;align-items:center;font-size:10px; }.church-online { color:#bec8be;font-size:9px; }.church-online:before { content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#abc5a5;margin-right:8px; }.church-tools button { border:1px solid #a5a79755;background:#26302ed9;color:#d9d7c5;border-radius:20px;padding:10px 15px; }
+.church-share { position:absolute;z-index:30;top:162px;right:4%;max-width:340px;padding:22px;border:1px solid #8e9c8c55;border-radius:14px;background:#26302ef5;box-shadow:0 12px 30px #0003;font-size:11px;line-height:1.9; }.church-share p { font-size:10px;color:#b5bdad; }.church-addresses a { display:block;color:#dfd0ac;overflow-wrap:anywhere;font-size:11px; }
+.church-views { position:absolute;right:4%;top:173px;display:flex;gap:5px;padding:5px;border:1px solid #a8ab9840;border-radius:10px;background:#202c2bd9; }.church-views button { padding:9px 12px;border:0;border-radius:6px;background:transparent;color:#b3b9af;font-size:9px; }.church-views button[aria-pressed="true"] { background:#d3bd95;color:#323831; }.church-view-caption { position:absolute;right:4%;top:228px;font-size:8px;letter-spacing:.3px;color:#b4b8ad;pointer-events:none;text-shadow:0 1px 5px #000; }
+.church-status { position:absolute;bottom:134px;left:50%;transform:translateX(-50%);max-width:85%;width:max-content;padding:11px 20px;border:1px solid #b5ac8c33;border-radius:30px;background:#202a29e8;backdrop-filter:blur(12px);font-size:10px;line-height:1.7;color:#d2cfbe;text-align:center;pointer-events:none; }
+.church-bottom { position:absolute;bottom:0;left:0;right:0;height:115px;display:flex;justify-content:space-between;align-items:center;padding:14px 4%;border-top:1px solid #ccbfa32a;background:linear-gradient(90deg,#1c2729,#26302c);gap:20px; }.church-move { display:flex;align-items:center;gap:23px; }.church-stick { position:relative;width:66px;height:66px;flex-shrink:0;border:1px solid #b6bba74d;border-radius:50%;touch-action:none;background:#d1c9a607;user-select:none;cursor:move; }.church-stick:before,.church-stick:after { content:'';position:absolute;background:#c2bfa22b; }.church-stick:before { width:1px;height:46px;left:32px;top:9px; }.church-stick:after { width:46px;height:1px;left:9px;top:32px; }.church-stick i { position:absolute;left:21px;top:21px;width:22px;height:22px;border-radius:50%;background:#c5b28a;z-index:1;pointer-events:none; }.church-stick span { position:absolute;bottom:-12px;left:0;width:100%;text-align:center;font:6px monospace;letter-spacing:2px;color:#9ba28f; }
+.church-keyboard p { display:flex;align-items:center;gap:5px;font-size:9px;margin:0 0 10px;color:#b1b5a6; }.church-keyboard kbd { display:flex;justify-content:center;align-items:center;width:23px;height:22px;border:1px solid #adab9055;border-bottom-width:2px;border-radius:4px;font-size:11px; }.church-keyboard kbd.is-pressed { background:#d1bb91;color:#27352f; }.church-keyboard small { font-size:8px;color:#869286; }
+.church-actions { display:flex;gap:10px; }.church-actions button { position:relative;display:grid;grid-template-columns:24px auto;gap:6px 9px;min-width:150px;padding:13px 18px;border:1px solid #c7bda049;border-radius:11px;background:#46534b24;color:#ddd7c5;text-align:left; }.church-actions button>span { grid-row:span 2;font:20px Georgia,serif;color:#a99a79;align-self:center; }.church-actions strong { font-size:12px;font-weight:500; }.church-actions small { font-size:8px;color:#a2ab98; }.church-actions button[aria-pressed="true"] { border-color:#d8c19b;background:#d8c19b;color:#333d31; }.church-actions button[aria-pressed="true"] span,.church-actions button[aria-pressed="true"] small { color:#667054; }
+.church-entry { position:absolute;inset:85px 0 0;z-index:25;display:grid;place-items:center;background:#14202550;backdrop-filter:blur(3px); }.church-entry-card { width:350px;max-width:calc(100% - 36px);padding:27px 33px 0;border:1px solid #dac8a764;border-radius:20px;background:linear-gradient(145deg,#2c3938f5,#1d2a2df8);box-shadow:0 30px 90px #0005;text-align:center; }.church-entry-cross { font:37px Georgia,serif;color:#d1b88a; }.church-entry-card>p { font:7px monospace;letter-spacing:2px;color:#abae99;margin:13px 0 22px; }.church-entry-card h2 { font-size:25px;font-weight:400;letter-spacing:-1px;line-height:1.5;margin:0 0 15px; }.church-entry-card>div:not(.church-entry-cross) { font-size:11px;line-height:1.9;color:#a9b2a2;margin-bottom:25px; }.church-entry-card label { display:block;text-align:left;font-size:10px;color:#bdc1ae;margin-bottom:9px; }.church-entry-card input { width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #c7bfa150;border-radius:9px;background:#121f2380;font:13px 'Noto Sans KR',sans-serif;color:#eee4cd; }.church-entry-card input::placeholder { color:#7f9086;font-size:11px; }.church-entry-card>button { width:100%;padding:15px;margin-top:12px;border:0;border-radius:9px;background:#d3bd95;color:#303c33;font-size:12px; }.church-entry-message { display:block;font-size:9px;line-height:1.7;min-height:32px;margin:14px 0;color:#b2b49f; }.church-entry-card footer { display:flex;justify-content:space-between;margin:16px -33px 0;padding:16px 24px;border-top:1px solid #bdba9d30;font:8px monospace;color:#9fa68f; }.church-entry-card footer span { font:8px 'Noto Sans KR',sans-serif;letter-spacing:1px; }
+@media(max-width:1100px) { [data-experiment="church"] .lab-brand { display:none; }.church-actions button { min-width:130px;padding:12px; }.church-heading>div { display:none; } }
+@media(max-width:760px) { [data-experiment="church"] .lab-header { left:12px;right:12px;top:14px; }.church-heading { top:76px;left:20px; }.church-heading>p { display:none; }.church-heading h1 { font-size:10px;margin:0;letter-spacing:1px; }.church-heading h1 span { font-size:34px; }.church-tools { right:18px;top:80px;gap:9px; }.church-tools button { padding:8px 11px;font-size:9px; }.church-online { font-size:8px; }.church-views { top:122px;right:15px;gap:0;padding:3px; }.church-views button { padding:8px;font-size:8px; }.church-view-caption { top:165px;right:18px;font-size:7px; }.church-viewport { inset:150px 0 142px; }.church-share { top:117px;right:15px;max-width:calc(100% - 30px); }.church-keyboard { display:none; }.church-bottom { height:127px;padding:12px 16px;gap:12px; }.church-actions { gap:6px;flex:1;justify-content:flex-end; }.church-actions button { display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;padding:12px 9px;text-align:center; }.church-actions button>span { font-size:15px; }.church-actions strong { font-size:10px; }.church-actions small { font-size:7px; }.church-move { gap:0; }.church-stick { width:60px;height:60px; }.church-stick i { left:18px;top:18px; }.church-stick:before { left:29px;height:40px; }.church-stick:after { top:29px;width:40px; }.church-status { bottom:143px;font-size:8px;padding:8px 12px;max-width:92%; }.church-entry { inset:70px 0 0; }.church-entry-card { padding-top:20px; }.church-entry-card h2 { font-size:23px; } }
+@media(max-height:650px) { .church-entry { overflow:auto;display:block;padding:15px 0; }.church-entry-card { margin:auto; }.church-entry-cross,.church-entry-card>p,.church-entry-card>div:not(.church-entry-cross) { display:none; }.church-entry-card h2 { font-size:21px;margin:0 0 15px; }.church-entry-message { margin:10px 0; }.church-entry-card footer { margin-top:10px;padding:11px 20px; } }
+@media(max-height:500px) {
+  [data-experiment="church"] .lab-header { top:10px; }
+  [data-experiment="church"] .lab-brand { display:none; }
+  .church-viewport { inset:60px 0 60px; }
+  .church-heading { top:66px;left:20px; }
+  .church-heading>p,.church-heading>div { display:none; }
+  .church-heading h1 { margin:0;font-size:9px; }
+  .church-heading h1 span { display:inline;font-size:17px;margin-left:10px;letter-spacing:0; }
+  .church-tools { top:62px;right:20px;gap:9px; }
+  .church-tools button { padding:6px 10px; }
+  .church-views { top:98px;right:20px;padding:3px; }
+  .church-views button { padding:6px 8px; }
+  .church-view-caption { display:none; }
+  .church-bottom { height:60px;padding:5px 20px;gap:12px; }
+  .church-keyboard small,.church-stick span,.church-actions small,.church-actions button>span { display:none; }
+  .church-keyboard p { margin:0; }
+  .church-stick { transform:scale(.65);margin:-12px; }
+  .church-actions button { display:block;min-width:90px;padding:10px 14px;text-align:center; }
+  .church-actions strong { font-size:10px; }
+  .church-status { bottom:65px;padding:5px 12px;font-size:8px; }
+  .church-share { top:98px; }
+  .church-entry { top:60px; }
+}
+@media(max-width:1100px) { .church-keyboard { display:none; }.church-actions button { min-width:110px; } }
+@media(max-width:760px) {
+  .church-actions { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px; }
+  .church-actions>button { min-width:0;padding:9px 5px; }
+  .church-actions>button>span { display:none; }
+  .church-actions .church-speech-actions { grid-column:1/-1;grid-row:2;flex-direction:row; }
+  .church-actions .church-speech-actions button { min-width:0;justify-content:center;padding:8px; }
+  .church-bottom { height:146px; }.church-viewport { bottom:146px; }.church-status { bottom:155px; }
+}
+@media(max-height:500px) and (min-width:600px) { .church-bottom { height:60px; }.church-viewport { bottom:60px; }.church-status { bottom:65px; }.church-actions { display:flex; }.church-actions>button { min-width:80px; }.church-actions .church-speech-actions { flex-direction:column; }.church-actions .church-speech-actions button { min-width:64px;padding:4px 8px;font-size:10px; } }
+
+/* Music stays at the top right; its complete three-song list opens below. */
+.church-tools { top:100px;width:min(390px,50%);display:grid;grid-template-columns:1fr auto;gap:8px 12px;z-index:26; }
+.church-tools>.church-online { justify-self:end; }
+.church-music { grid-column:1/-1;display:flex;align-items:stretch;gap:7px;min-width:0; }
+.church-tools .church-music-toggle { flex-shrink:0;padding:9px 13px;white-space:nowrap;color:#e5d0a4;font-size:10px; }
+.church-music-toggle[aria-pressed="true"] { background:#d3bd9520;border-color:#d3bd9580; }
+.church-music-picker { position:relative;flex:1;min-width:0; }
+.church-music-picker summary { display:flex;align-items:center;justify-content:space-between;gap:8px;height:100%;min-height:34px;padding:8px 12px;border:1px solid #a5a79755;border-radius:18px;background:#26302ef5;color:#d9d7c5;font-size:10px;list-style:none;cursor:pointer; }
+.church-music-picker summary::-webkit-details-marker { display:none; }
+.church-music-current { min-width:0;line-height:1.5;overflow-wrap:anywhere; }
+.church-music-select-label { display:none; }
+.church-music-list { position:absolute;top:calc(100% + 8px);right:0;width:310px;max-width:calc(100vw - 30px);padding:12px;border:1px solid #a8ab9850;border-radius:14px;background:#25312ffa;box-shadow:0 12px 35px #0006; }
+.church-music-state { margin:0 4px 10px;color:#b9bea9;font-size:9px;line-height:1.6; }
+.church-tools .church-music-list button { display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 10px;margin:4px 0;border:0;border-radius:8px;background:transparent;text-align:left;font-size:11px;line-height:1.6; }
+.church-music-list button span { overflow-wrap:anywhere; }
+.church-music-list button i { font-style:normal;visibility:hidden; }
+.church-tools .church-music-list button[aria-pressed="true"] { background:#d3bd95;color:#28382e; }
+.church-music-list button[aria-pressed="true"] i { visibility:visible; }
+.church-music-list small { display:block;margin:10px 4px 0;color:#a4ae9e;font-size:8px;line-height:1.6; }
+.church-music-credit { margin:12px 4px 2px;padding-top:10px;border-top:1px solid #a8ab9833;color:#b9bea9;font-size:10px;line-height:1.7; }
+.church-music-credit a { color:#e5d0a4;text-decoration:underline;text-underline-offset:3px; }
+.church-views { top:194px; }.church-view-caption { top:246px; }.church-share { top:185px; }
+@media(max-width:760px) {
+  .church-tools { top:76px;right:16px;width:180px;gap:6px; }
+  .church-tools .church-music-toggle { padding:8px 10px;font-size:9px; }
+  .church-music-current { display:none; }.church-music-select-label { display:inline; }
+  .church-music-picker summary { padding:8px 10px;font-size:9px; }
+  .church-views { top:158px; }.church-view-caption { top:202px; }.church-viewport { top:184px; }.church-share { top:153px; }
+}
+@media(max-height:500px) {
+  .church-tools { top:63px;gap:5px 8px; }
+  .church-tools .church-music-toggle { padding:6px 10px; }
+  .church-music-picker summary { min-height:28px;padding:5px 10px; }
+  .church-views { top:138px; }.church-share { top:132px; }
+  .church-music-list { max-height:calc(100dvh - 112px);overflow-y:auto; }
+}

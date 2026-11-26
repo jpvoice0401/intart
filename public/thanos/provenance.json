@@ -1,0 +1,9 @@
+{
+  "title": "타노스 · Titan backdrop",
+  "created": "2026-11-19",
+  "generator": "OpenAI built-in image_gen via imagegen skill",
+  "asset": "titan.webp",
+  "originalSavedInWorkspace": ".tools/thanos/titan-original.png",
+  "processing": "Original generated image encoded as WebP quality 88. No change to composition or dimensions.",
+  "prompt": "Use case: stylized-concept. Asset type: cinematic fullscreen landscape background for a camera-based Thanos finger-snap interactive experience. Create a high quality photorealistic science-fiction environment on a desolate alien planet reminiscent of the ruined Titan battlefield: enormous fractured stone rings and ancient angular monoliths at the far left and right, a wide empty dusty stone plain in the center foreground where a real webcam person will be composited, distant ruined mountains, an immense eclipsed planet hanging low in a dark violet sky, restrained amber light on the horizon, thin drifting volcanic dust. Awe, scale, quiet cosmic apocalypse. Cinematic natural material detail, volumetric haze, violet shadows and antique gold highlights. Wide landscape 16:9 composition, horizon near upper middle. Leave the central 50 percent uncluttered, edge details must survive mobile center crop. No people, no humanoids, no Thanos character, no gauntlet, no weapons, no UI, no letters, no logos, no watermark."
+}

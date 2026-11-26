@@ -1,0 +1,35 @@
+{
+  "title": "Sabrina · princess wardrobe",
+  "created": "2026-11-19",
+  "generator": "OpenAI built-in image_gen via imagegen skill",
+  "assets": [
+    {
+      "file": "dress.webp",
+      "original": ".tools/sabrina/dress-original.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "encoding": "WebP quality 88, original dimensions and alpha preserved",
+      "prompt": "Use case: product-mockup. Asset type: a single transparent game costume sprite for live augmented-reality princess dressing. Primary request: a beautifully crafted entire princess BALL GOWN only, floating as if on an invisible person, exact straight-on front view, symmetrical neutral stance. Fitted lavender and blush-pink silk bodice with sweetheart neckline and delicate gold embroidered filigree, tiny translucent cap sleeves, defined narrow waist, enormously flowing long layered lavender-to-rose satin and tulle skirt with realistic luminous folds and little embroidered golden stars. The dress is luxurious, magical, youthful and tasteful, like a whimsical teenage-witch transformation into a princess. Entire gown from neckline to full hem visible, vertically centered, small empty margin. No head, no face, no skin, no hands, no arms, no legs, no shoes, no body, no mannequin, no person, no background, no floor, no ground shadow, no text, no labels. High-end photorealistic fabric product photography, gentle diffuse light, all fabric detail readable. The background and all empty space including neckline opening must be truly transparent. Portrait 2:3 composition. Keep the waist around 27 percent down the dress height."
+    },
+    {
+      "file": "hair.webp",
+      "original": ".tools/sabrina/hair-original.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "encoding": "WebP quality 88, original dimensions and alpha preserved",
+      "prompt": "Use case: product-mockup. Asset type: a single transparent hair-and-tiara game sprite for live augmented-reality princess dressing. A glamorous GOLDEN BLONDE long softly waved princess wig, viewed EXACTLY straight-on from the front, symmetrical. A delicate antique-gold crystal tiara rests on a slender black velvet headband at the top of the wig, whimsical teenage-witch heroine becoming a princess. Soft blonde waves flow down both sides to the lower chest. The central FACE OVAL is completely empty transparent, with no facial features or skin, like a face-in-hole wig prop; face opening centered horizontally, about 35 percent of image width, from 20 percent to 55 percent of image height. A gentle middle part and swept side locks, no fringe crossing the face opening. All hair strands visible, full tiara and flowing ends within frame with small transparent margins. Photorealistic salon hair product render, individual strands and warm gold highlights, clean alpha. No mannequin, no head, no face, no eyes, no skin, no neck, no shoulders, no hands, no body, no background, no floor, no text, no watermark. Portrait composition, truly transparent background and truly transparent central face hole."
+    }
+  ],
+  "poseModel": {
+    "file": "pose_landmarker_lite.task",
+    "source": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
+    "version": "1 / float16 / lite",
+    "bytes": 5777746,
+    "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a",
+    "documentation": "https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker?tab=Web"
+  }
+}

@@ -1,0 +1,200 @@
+import type { HandLandmarkerResult } from '@mediapipe/tasks-vision'
+import { CameraVision } from '../camera-vision'
+import { openCamera, setCameraVisible } from '../camera-access'
+import { cameraCover, FINGERTIPS } from '../water-touch-model'
+import { WatchMechanism, wristWatchPose, interpolateWatchPose, tickingFrequency, type WatchPose } from '../rolex-model'
+import { RolexRenderer } from '../rolex-renderer'
+import { RolexAudio } from '../rolex-audio'
+import { WatchHandIdentities, projectWatchHand, watchHandMask, type WatchHandMask, type WatchTip } from '../rolex-hands'
+import { WatchDialControl } from '../rolex-control'
+
+const crown = '<svg viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 12 8 19q9 5 18 0l8-19-13 12 5-19-9 18L24 2l-5 22-5-19 2 19L7 12Z"/><ellipse cx="24" cy="32" rx="8" ry="2"/><circle cx="7" cy="11" r="2"/><circle cx="14" cy="5" r="2"/><circle cx="24" cy="2" r="2"/><circle cx="33" cy="5" r="2"/><circle cx="41" cy="11" r="2"/></svg>'
+
+export function mountRolex(container: HTMLElement): () => void {
+  container.innerHTML = `
+    <section class="rolex-scene" aria-label="rolex · 손끝으로 돌리는 시간">
+      <video class="rolex-video" playsinline muted aria-hidden="true"></video>
+      <div class="rolex-vignette" aria-hidden="true"></div>
+      <header class="rolex-heading"><div class="rolex-brand">${crown}<h1>ROLEX</h1><span>WRIST STUDIO</span></div><div class="rolex-edition">AN INTERACTIVE TIMEPIECE<span>OYSTER · STEEL & GOLD</span></div></header>
+      <div class="rolex-live"><i></i><span class="rolex-live-copy">카메라를 켜고 손목을 보여주세요</span><span class="rolex-tracking-state">DEMO</span></div>
+      <div class="rolex-intro"><span>TIME, AT YOUR FINGERTIPS</span><h2>당신의 손목에,<br><em>반짝이는 시간.</em></h2><p>손목을 비추면 시계가 따라옵니다.<br>반대 손끝을 대면 조작 바늘이 나타나요.</p><button class="rolex-start" type="button">START CAMERA <span>↗</span></button><small>카메라 영상은 기기 안에서만 처리됩니다.</small></div>
+      <p class="rolex-status" role="status" aria-live="polite">시계 위를 드래그해 먼저 시간을 돌려보세요.</p>
+      <footer class="rolex-footer"><div class="rolex-guide"><span><b>01</b> 손과 손목 보여주기</span><span><b>02</b> 손끝을 대어 바늘 생성</span><span><b>03</b> 크게 원을 그리며 돌리기</span></div><div class="rolex-tools"><span class="rolex-rate"><b>2.0</b> TICKS / S</span><button class="rolex-sound" type="button" aria-pressed="true">SOUND ON</button><button class="rolex-reset" type="button">RESET ↺</button><button class="rolex-labels" type="button" aria-label="Hide Korean labels" aria-pressed="true">Aa</button><button class="rolex-camera" type="button">CAMERA ↗</button></div></footer>
+      <div class="rolex-bottom" aria-hidden="true"><span>TIME STUDIES — Nº 012</span><span>FEEL EVERY SECOND.</span></div>
+    </section>`
+  const root = container.querySelector<HTMLElement>('.rolex-scene')!
+  const video = root.querySelector<HTMLVideoElement>('video')!
+  const status = root.querySelector<HTMLElement>('.rolex-status')!
+  const start = root.querySelector<HTMLButtonElement>('.rolex-start')!
+  const cameraButton = root.querySelector<HTMLButtonElement>('.rolex-camera')!
+  const sound = root.querySelector<HTMLButtonElement>('.rolex-sound')!
+  const intro = root.querySelector<HTMLElement>('.rolex-intro')!
+  const labels = root.querySelector<HTMLButtonElement>('.rolex-labels')!
+  const liveCopy = root.querySelector<HTMLElement>('.rolex-live-copy')!
+  const trackLabel = root.querySelector<HTMLElement>('.rolex-tracking-state')!
+  const rateLabel = root.querySelector<HTMLElement>('.rolex-rate b')!
+  const events = new AbortController(), options = {signal:events.signal}
+  const shell = container.closest<HTMLElement>('.lab-shell')
+  let renderer: RolexRenderer
+  try { renderer = new RolexRenderer(root) }
+  catch (error) {
+    start.disabled = cameraButton.disabled = true
+    status.textContent = error instanceof Error ? error.message : '시계를 표시할 수 없어요.'
+    return () => events.abort()
+  }
+  const mechanism = new WatchMechanism(), audio = new RolexAudio()
+  const dialControl = new WatchDialControl(mechanism)
+  let vision: CameraVision | null = null, stream: MediaStream | null = null
+  let disposed = false, busy = false, live = false, generation = 0
+  let frame = 0, lastFrame = performance.now(), lastSubmit = 0, lastVideoTime = -1, lastSeen = -Infinity, lastHandsFrame = -Infinity, lastPoseTime = 0, lastHud = 0
+  let pose: WatchPose | null = null
+  let hostId: string | null = null
+  const identities = new WatchHandIdentities()
+  let tips: WatchTip[] = []
+  let foreground: WatchHandMask[] = []
+  let pointer: {id:string;x:number;y:number;sampledAt:number} | null = null
+  let showLabels = true
+  try { showLabels = (localStorage.getItem('rolex-korean-labels') ?? localStorage.getItem('snow-korean-labels')) !== 'hidden' } catch { /* Storage is optional. */ }
+  function applyLabels() {
+    root.classList.toggle('rolex-hide-labels',!showLabels); shell?.classList.toggle('rolex-hide-labels',!showLabels)
+    labels.setAttribute('aria-pressed',String(showLabels)); labels.setAttribute('aria-label',showLabels ? 'Hide Korean labels' : 'Show Korean labels')
+    labels.title = showLabels ? 'Hide Korean labels' : 'Show Korean labels'
+  }
+  applyLabels()
+  function updateSound() { sound.textContent = audio.enabled ? 'SOUND ON' : 'SOUND OFF'; sound.setAttribute('aria-pressed',String(audio.enabled)) }
+  const unlock = () => { void audio.unlock().then(updateSound) }
+
+  function stopCamera() {
+    generation++; busy = false; live = false
+    stream?.getTracks().forEach(track => track.stop()); stream = null
+    vision?.close(); vision = null; video.pause(); video.srcObject = null
+    hostId = null; identities.clear(); pose = null; tips = []; foreground = []; pointer = null; lastSeen = lastHandsFrame = -Infinity
+    dialControl.release(); audio.setActive(false)
+    intro.hidden = false; start.disabled = false; start.innerHTML = 'START CAMERA <span>↗</span>'
+    cameraButton.textContent = 'CAMERA ↗'; root.classList.remove('is-live')
+    trackLabel.textContent = 'DEMO'; liveCopy.textContent = '카메라를 켜고 손목을 보여주세요'
+  }
+
+  function receiveHands(result: HandLandmarkerResult, timestamp: number) {
+    if (disposed || !live) return
+    const now = performance.now()
+    const hands = identities.update(result.landmarks,result.handedness.map(hand => hand[0]?.categoryName ?? ''),timestamp)
+    tips = []; foreground = []; lastHandsFrame = now
+    if (!hands.length) return
+    let owner = hands.find(hand => hand.id === hostId)
+    // Preserve the wearing wrist through brief occlusion by the interacting hand.
+    // Never transfer the watch just because MediaPipe changed its result order.
+    if (!hostId || (!owner && now-lastSeen > 1500)) { owner = hands[0]; hostId = owner!.id }
+    const cover = cameraCover(renderer.width,renderer.height,video.videoWidth,video.videoHeight)
+    if (owner) {
+      const next = wristWatchPose(owner.landmarks,renderer.width,renderer.height,cover)
+      if (next) {
+        pose = interpolateWatchPose(pose,next,(timestamp-lastPoseTime)/1000)
+        lastPoseTime = timestamp; lastSeen = now
+      }
+    }
+    // Restore only the opposite hand above the watch. The wearing wrist stays below it.
+    for (const hand of hands) {
+      if (hand.id === hostId) continue
+      const points = projectWatchHand(hand.landmarks,renderer.width,renderer.height,cover)
+      const mask = watchHandMask(points)
+      if (mask) foreground.push(mask)
+      for (const tip of FINGERTIPS) tips.push({id:`${hand.id}:${tip}`,tip,...points[tip]!,sampledAt:timestamp/1000})
+    }
+  }
+
+  async function startCamera() {
+    unlock()
+    if (busy || stream) { stopCamera(); status.textContent = '카메라를 껐어요. 다이얼을 드래그해서 계속 돌릴 수 있어요.'; return }
+    const token = ++generation
+    dialControl.release()
+    busy = true; start.disabled = true; start.textContent = 'PREPARING…'; cameraButton.textContent = 'CANCEL'
+    status.textContent = '카메라 사용을 허용한 뒤 손과 손목을 보여주세요.'
+    try {
+      const camera = await openCamera(video,1280,720)
+      if (disposed || token !== generation) { camera.getTracks().forEach(track => track.stop()); return }
+      stream = camera; video.srcObject = camera; setCameraVisible(stream,!document.hidden)
+      await video.play()
+      if (disposed || token !== generation) return
+      const session = new CameraVision('hands',(output,timestamp) => {
+        if (token === generation && output.task === 'hands') receiveHands(output.result,timestamp)
+      })
+      vision = session
+      await session.initialize(message => { if (!disposed && token === generation) status.textContent = message })
+      if (disposed || token !== generation) { session.close(); return }
+      busy = false; live = true; lastSubmit = 0; lastVideoTime = -1
+      intro.hidden = true; cameraButton.textContent = 'CAMERA OFF'; root.classList.add('is-live')
+      status.textContent = '반대 손끝을 시계에 대면 금색 조작 바늘이 나타나요. 손끝으로 크게 원을 그리며 자유롭게 돌려보세요.'
+      camera.getVideoTracks()[0]?.addEventListener('ended',() => {
+        if (disposed || token !== generation) return
+        stopCamera(); status.textContent = '카메라 연결이 종료됐어요. 카메라를 다시 켜주세요.'
+      },options)
+    } catch (error) {
+      if (disposed || token !== generation) return
+      stopCamera()
+      const name = error instanceof Error ? error.name : ''
+      status.textContent = name === 'NotAllowedError' ? '카메라 권한을 허용해주세요. 인앱에서 열리지 않으면 Safari 또는 Chrome에서 열어주세요.'
+        : name === 'NotFoundError' ? '연결된 카메라를 찾지 못했어요.'
+        : name === 'NotReadableError' ? '다른 앱에서 카메라를 사용 중인지 확인해주세요.'
+        : `시작하지 못했어요: ${error instanceof Error ? error.message : '다시 시도해주세요.'}`
+    }
+  }
+
+  function animate(now: number) {
+    if (disposed || document.hidden) return
+    const dt = Math.min(.05,(now-lastFrame)/1000); lastFrame = now
+    if (live && vision && video.readyState >= 2 && now-lastSubmit >= 1000/30 && video.currentTime !== lastVideoTime) {
+      try {
+        if (vision.error) throw vision.error
+        if (vision.submit('hands',video,now)) { lastSubmit = now; lastVideoTime = video.currentTime }
+      } catch { stopCamera(); status.textContent = '손 추적이 중단됐어요. 카메라를 다시 켜주세요.' }
+    }
+    const opacity = live ? Math.max(0,1-Math.max(0,now-lastSeen-900)/400) : 1
+    const currentPose = live ? pose : renderer.previewPose()
+    const inputs: WatchTip[] = pointer ? [{...pointer,tip:8}] : live && now-lastHandsFrame < 450 ? tips : []
+    dialControl.update(inputs,opacity > .2 ? currentPose : null,now/1000)
+    mechanism.update(dt,now/1000)
+    const rate = tickingFrequency(mechanism.velocity)
+    audio.setRate(rate); audio.setActive(!busy && (!live || opacity > .2))
+    renderer.render(video,live,currentPose,mechanism,now/1000,opacity,null,now-lastHandsFrame < 200 ? foreground : [],dialControl.visual)
+    if (now-lastHud > 150) {
+      rateLabel.textContent = rate.toFixed(1)
+      if (live) {
+        trackLabel.textContent = opacity > .2 ? dialControl.active ? 'HAND CONNECTED' : tips.length ? 'TOUCH WATCH' : 'SHOW OTHER HAND' : 'FINDING WRIST'
+        liveCopy.textContent = opacity > .2 ? dialControl.active ? '조작 바늘이 손끝을 따라 돌아가고 있어요' : tips.length ? '반대 손끝을 시계에 대면 조작 바늘이 나타나요' : '반대 손 전체가 카메라에 보이도록 가져와주세요' : '손과 손목을 카메라에 보여주세요'
+      }
+      lastHud = now
+    }
+    frame = requestAnimationFrame(animate)
+  }
+
+  function samplePointer(event: PointerEvent) {
+    const bounds = renderer.canvas.getBoundingClientRect()
+    pointer = {id:`pointer:${event.pointerId}`,x:event.clientX-bounds.left,y:event.clientY-bounds.top,sampledAt:performance.now()/1000}
+  }
+  renderer.canvas.addEventListener('pointerdown',event => { renderer.canvas.setPointerCapture(event.pointerId); samplePointer(event); unlock() },options)
+  renderer.canvas.addEventListener('pointermove',event => { if (pointer?.id === `pointer:${event.pointerId}`) samplePointer(event) },options)
+  for (const name of ['pointerup','pointercancel','lostpointercapture'] as const) renderer.canvas.addEventListener(name,() => { pointer = null; dialControl.release() },options)
+  renderer.canvas.addEventListener('keydown',event => {
+    if (!['ArrowLeft','ArrowRight','Space'].includes(event.code)) return
+    event.preventDefault(); unlock()
+    dialControl.release()
+    mechanism.fling(event.code === 'ArrowLeft' ? -12 : event.code === 'ArrowRight' ? 12 : 24)
+  },options)
+  start.addEventListener('click',() => void startCamera(),options)
+  cameraButton.addEventListener('click',() => void startCamera(),options)
+  sound.addEventListener('click',() => { void audio.toggle().then(updateSound) },options)
+  root.querySelector('.rolex-reset')!.addEventListener('click',() => { dialControl.release(); mechanism.reset(); pointer = null; status.textContent = '시계를 10시 10분으로 맞췄어요. 손끝을 가져다 대면 조작 바늘이 다시 나타나요.' },options)
+  labels.addEventListener('click',() => {
+    showLabels = !showLabels; applyLabels()
+    try { localStorage.setItem('rolex-korean-labels',showLabels ? 'visible' : 'hidden') } catch { /* This session still keeps the preference. */ }
+  },options)
+  document.addEventListener('visibilitychange',() => {
+    cancelAnimationFrame(frame); pointer = null; tips = []; foreground = []; dialControl.release(); audio.setActive(false)
+    setCameraVisible(stream,!document.hidden)
+    if (!document.hidden && !disposed) { lastFrame = performance.now(); frame = requestAnimationFrame(animate) }
+  },options)
+  window.addEventListener('blur',() => { pointer = null; dialControl.release() },options)
+  frame = requestAnimationFrame(animate)
+  return () => { disposed = true; events.abort(); cancelAnimationFrame(frame); stopCamera(); audio.destroy(); renderer.destroy(); shell?.classList.remove('rolex-hide-labels') }
+}

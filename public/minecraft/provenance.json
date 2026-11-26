@@ -1,0 +1,22 @@
+{
+  "commit": "15701fa9c13923f12662984c32c124327e40e3d3",
+  "base": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/",
+  "assets": {
+    "diamond_sword.png": {
+      "bytes": 198,
+      "sha256": "cf75a6e96b2d3e06bf078dbc28367febf01f03dcec177ceb64ca80608aa2ad94"
+    },
+    "icons.png": {
+      "bytes": 7088,
+      "sha256": "8e7e29a72102119a9b152daec1938db35f0bca44984ad089e1a4604ff0611852"
+    },
+    "gui.png": {
+      "bytes": 30919,
+      "sha256": "4ca9d1f0a4bd02301cd7ced69c3ea8a62a622016a8b8b018283339983c0eb7dd"
+    },
+    "steve.png": {
+      "bytes": 1379,
+      "sha256": "86312cb1215f9bf7a734e66791460581764ee12a6b790a5bd27da716d953bb40"
+    }
+  }
+}

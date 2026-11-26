@@ -1,0 +1,24 @@
+/* Shared navigation layout, applied after scene-specific colors and styles. */
+.lab-shell .lab-header { display:flex;flex-direction:row;gap:16px;min-width:0; }
+.lab-shell .lab-brand { flex:0 0 auto;white-space:nowrap; }
+.lab-shell .experiment-tabs { display:flex;flex:1 1 auto;min-width:0;max-width:100%;gap:3px;padding:5px;overflow-x:auto;scrollbar-width:none; }
+.lab-shell .experiment-tab { flex:1 0 44px;min-width:44px;min-height:44px;gap:0;padding:11px;font-size:11px;white-space:nowrap; }
+.lab-shell .experiment-tab svg { display:block;flex-shrink:0;width:20px;height:20px; }
+.lab-shell .lab-note { flex:0 0 auto;white-space:nowrap; }
+.experiment-menu-toggle { display:none; }
+.experiment-loading { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:12px;font-size:12px;background:#182a36;color:#dce5e5; }
+.experiment-loading button { padding:8px 12px;border:1px solid #dce5e560;border-radius:6px;background:transparent;cursor:pointer; }
+@media(max-width:1700px) { .lab-shell .lab-note { display:none; } }
+@media(max-width:1300px) { .lab-shell .lab-brand { display:none; } }
+@media(max-width:799px) {
+  .lab-shell .lab-header { left:12px;right:12px;top:14px;gap:0; }
+  .lab-shell .experiment-menu-toggle { display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:44px;padding:10px 16px;border:1px solid #cbd1ed40;border-radius:24px;background:#252e32f5;color:#f1e5d5;pointer-events:auto;cursor:pointer;text-align:left; }
+  .experiment-current-label { display:flex;align-items:center; }
+  .experiment-current-label svg { width:22px;height:22px; }
+  .experiment-menu-hint { display:flex;gap:9px;align-items:center;flex-shrink:0;font-size:10px;color:#c5c8bd; }
+  .lab-shell .experiment-tabs { display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;width:100%;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding:8px;border-radius:18px;box-shadow:0 12px 32px #0005;max-height:calc(100dvh - 90px);overflow-y:auto; }
+  .lab-shell .menu-open .experiment-tabs { display:grid; }
+  .lab-shell .experiment-tab { flex:none;min-width:0;min-height:44px;gap:0;padding:8px 4px;border-radius:10px; }
+  .lab-shell .experiment-tab svg { display:block;width:20px;height:20px; }
+  .lab-shell .experiment-tab:focus-visible { outline-offset:-2px; }
+}
