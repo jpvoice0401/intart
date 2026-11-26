@@ -109,7 +109,7 @@
   .th-start { min-height:44px; padding:12px 18px; }
   .th-help { gap:8px; }
 }
-@media(max-height:480px) and (min-width:600px) {
+@media(max-height:620px) and (min-width:600px) {
   .th-scene { padding-top:90px; padding-bottom:max(18px,env(safe-area-inset-bottom)); gap:10px; }
   .th-eyebrow { font-size:8px; }
   .th-coordinate { font-size:7px; }
