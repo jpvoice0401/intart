@@ -1,8 +1,10 @@
 import type { ChurchGender, ChurchPhrase } from './church-model.ts'
 
+const base = import.meta.env?.BASE_URL ?? '/'
+
 export const CHURCH_VOICE_FILES = {
-  male: { amen: '/audio/church/male-amen.mp3', lord: '/audio/church/male-lord.mp3' },
-  female: { amen: '/audio/church/female-amen.mp3', lord: '/audio/church/female-lord.mp3' },
+  male: { amen: `${base}audio/church/male-amen.mp3`, lord: `${base}audio/church/male-lord.mp3` },
+  female: { amen: `${base}audio/church/female-amen.mp3`, lord: `${base}audio/church/female-lord.mp3` },
 } as const
 
 /** Neural Korean clips, with a firm attack, sustained vowel and falling release. */

@@ -15,6 +15,8 @@ function developmentHttps() {
 }
 
 export default defineConfig(({ command, isPreview }) => ({
+  // Pages supplies /intart/ in CI; local development keeps the root URL.
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [sixflagsPlugin(), compressedAssets()],
   build: { target: ['chrome80','edge80','firefox78','safari15'], cssTarget: 'safari15', minify: true },
   worker: { format: 'es' },

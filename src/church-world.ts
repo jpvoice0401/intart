@@ -120,7 +120,7 @@ export function createSanctuary() {
 }
 
 export async function loadChurchExterior() {
-  const gltf = await new GLTFLoader().loadAsync('/church/daeseongjeon.glb')
+  const gltf = await new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}church/daeseongjeon.glb`)
   const bounds = new THREE.Box3().setFromObject(gltf.scene), size = bounds.getSize(new THREE.Vector3()), center = bounds.getCenter(new THREE.Vector3())
   const wrapper = new THREE.Group(), factor = 28 / Math.max(size.x, size.z)
   gltf.scene.position.set(-center.x, -bounds.min.y, -center.z); wrapper.add(gltf.scene); wrapper.scale.setScalar(factor)

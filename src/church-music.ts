@@ -1,7 +1,9 @@
+const base = import.meta.env?.BASE_URL ?? '/'
+
 export const CHURCH_HYMNS = [
-  { title: '구주의 십자가 보혈로', url: '/audio/hymns/cross-blood.mp3' },
-  { title: '너 근심 걱정 말아라', url: '/audio/hymns/be-not-dismayed.mp3' },
-  { title: '주 예수 보다 더 귀한것은 없네', url: '/audio/hymns/rather-have-jesus.mp3' },
+  { title: '구주의 십자가 보혈로', url: `${base}audio/hymns/cross-blood.mp3` },
+  { title: '너 근심 걱정 말아라', url: `${base}audio/hymns/be-not-dismayed.mp3` },
+  { title: '주 예수 보다 더 귀한것은 없네', url: `${base}audio/hymns/rather-have-jesus.mp3` },
 ] as const
 
 export type ChurchMusicState = { index: number; enabled: boolean; playing: boolean; loading: boolean; error: string }

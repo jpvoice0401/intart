@@ -8,6 +8,7 @@
     "setup:https": "node scripts/setup-https.mjs",
     "setup:ar": "node scripts/setup-minecraft-ar.mjs",
     "build": "tsc && vite build",
+    "build:pages": "npm run build -- --base=/intart/ && node scripts/verify-pages.mjs /intart/",
     "preview": "vite preview",
     "test": "node --test tests/*.test.mjs",
     "benchmark:snow": "node scripts/benchmark-snow.mjs",
