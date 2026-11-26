@@ -1,4 +1,4 @@
-export type ExperimentId = 'sabrina' | 'thanos' | 'minecraft' | 'rubberhuman' | 'myboo' | 'rolex' | 'snow' | 'watertouch' | 'character' | 'bubbles' | 'fireworks' | 'clouds' | 'golf' | 'typing' | 'claw' | 'sixflags' | 'church'
+export type ExperimentId = 'animalforest' | 'sabrina' | 'thanos' | 'minecraft' | 'rubberhuman' | 'myboo' | 'rolex' | 'snow' | 'watertouch' | 'character' | 'bubbles' | 'fireworks' | 'clouds' | 'golf' | 'typing' | 'claw' | 'sixflags' | 'church'
 export type MountExperiment = (container: HTMLElement) => () => void
 export type ExperimentMounts = Record<ExperimentId, MountExperiment>
 

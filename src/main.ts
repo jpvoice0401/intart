@@ -5,6 +5,7 @@ import { ExperimentSwitcher, type ExperimentId } from './experiment-switcher'
 import { lazyExperiment } from './lazy-experiment'
 
 const mounts = {
+  animalforest: lazyExperiment(async () => (await import('./scenes/animal-forest-scene')).mountAnimalForest),
   sabrina: lazyExperiment(async () => (await import('./scenes/sabrina-scene')).mountSabrina),
   thanos: lazyExperiment(async () => (await import('./scenes/thanos-scene')).mountThanos),
   minecraft: lazyExperiment(async () => (await import('./scenes/minecraft-scene')).mountMinecraft),
@@ -25,6 +26,7 @@ const mounts = {
 }
 
 const icons = {
+  animalforest: '<path d="m7 3-5 8h3l-4 6h12l-4-6h3L7 3ZM7 17v5m10-9v9"/><path d="m17 5-4 8h8l-4-8Z"/>',
   sabrina: '<path d="m4 20 10-10m-8 8 2 2M16 2l1.5 4.5L22 8l-4.5 1.5L16 14l-1.5-4.5L10 8l4.5-1.5L16 2ZM5 3v4M3 5h4m12 12v4m-2-2h4"/>',
   thanos: '<path d="M7 21v-3c-3-2-4-4-4-7 0-2 2-2 3 0l2 2V5c0-2 3-2 3 0v5-7c0-2 3-2 3 0v7-4c0-2 3-2 3 0v7c2-1 4 0 3 2l-3 6Z"/><path d="m19 2 1 2 2 1-2 1-1 2-1-2-2-1 2-1Z"/>',
   minecraft: '<path d="m15 3 6 0v6L10 20l-3-3L18 6M6 12l6 6M4 17l3 3-3 2-2-2 2-3Z"/>',
@@ -44,6 +46,7 @@ const icons = {
   church: '<path d="M12 2v6M9 4h6M3 21V12l9-5 9 5v9H3Zm7 0v-7h4v7"/>',
 }
 const experiments: { id: ExperimentId; label: string; title: string }[] = [
+  { id: 'animalforest', label: '동물의 숲', title: '동물의 숲 · 우주에 피어난 작은 행성' },
   { id: 'sabrina', label: 'Sabrina', title: 'Sabrina · 손끝에서 시작되는 공주 마법' },
   { id: 'thanos', label: '타노스', title: '타노스 · 한 번의 스냅, 우주의 먼지' },
   { id: 'minecraft', label: 'MineCraft', title: 'MineCraft · 카메라 속 다이아몬드 검' },
