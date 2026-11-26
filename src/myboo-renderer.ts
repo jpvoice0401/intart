@@ -151,7 +151,7 @@ export class MybooRenderer {
       const glass = ctx.createLinearGradient(0, top, 0, top + height)
       glass.addColorStop(0, '#35414c'); glass.addColorStop(1, '#101a22')
       ctx.fillStyle = glass; ctx.fillRect(left, top, width, height)
-      ctx.fillStyle = '#c1c9cd'; ctx.font = `${Math.max(5, 9 * s)}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText('YOUR CAMERA', center, top + height * .56)
+      ctx.fillStyle = '#c1c9cd'; ctx.font = `${Math.max(5, 9 * s)}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText('카메라 미리보기', center, top + height * .56)
     }
     const reflection = ctx.createLinearGradient(0, top, 0, top + height)
     reflection.addColorStop(0, '#cfe8f61b'); reflection.addColorStop(.35, '#a8cddd05'); reflection.addColorStop(1, '#102c3812')
@@ -169,7 +169,7 @@ export class MybooRenderer {
     ctx.fillStyle = '#f3f1ed'; ctx.font = '500 36px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(String(Math.round(drive.speed)), 0, 8)
     ctx.font = '8px sans-serif'; ctx.fillStyle = '#a7adb4'; ctx.fillText('KM / H', 0, 27)
     ctx.fillStyle = '#f98c39'; ctx.font = '19px sans-serif'; ctx.fillText(drive.running ? `D${Math.min(7, 1 + Math.floor(drive.speed / 32))}` : drive.starting ? 'N' : 'P', -108, 0)
-    ctx.font = '8px sans-serif'; ctx.fillStyle = '#b9c4c9'; ctx.fillText(drive.hasKey ? 'KEY CONNECTED' : 'KEY REQUIRED', 103, 0)
+    ctx.font = '8px sans-serif'; ctx.fillStyle = '#b9c4c9'; ctx.fillText(drive.hasKey ? '차키 연결' : '차키 대기', 103, 0)
     ctx.restore()
     this.drawNavigation(ctx, drive, time)
   }
@@ -248,7 +248,7 @@ export class MybooRenderer {
       // A small contact shadow keeps the fob resting on the skin rather than glowing above it.
       ctx.shadowColor = '#0009'; ctx.shadowBlur = Math.max(1, p.size * .018); ctx.shadowOffsetY = Math.max(1, p.size * .012)
       ctx.drawImage(this.key, -p.size / 2, -p.size / 2, p.size, p.size); ctx.restore()
-      ctx.fillStyle = '#ffc18d'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(drive.hasKey ? 'KEY CONNECTED' : 'CONNECTING…', p.x, p.y + p.size / 2 + 12 + Math.sin(time * 2))
+      ctx.fillStyle = '#ffc18d'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(drive.hasKey ? '차키 연결' : '연결 중…', p.x, p.y + p.size / 2 + 12 + Math.sin(time * 2))
     } else this.keyPose = null
   }
 
