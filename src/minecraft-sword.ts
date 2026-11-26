@@ -82,13 +82,15 @@ export class MinecraftSword {
 export function drawMinecraftHud(canvas:HTMLCanvasElement,images:MinecraftImages){
   canvas.width=184;canvas.height=53
   const c=canvas.getContext('2d')!;c.imageSmoothingEnabled=false;c.clearRect(0,0,184,53)
+  // Equal 9px cells for armor, health and hunger; neighboring sprites never overlap.
+  const iconSize=9,iconStep=9,left=1,right=93
   for(let i=0;i<10;i++){
-    c.drawImage(images.icons,16,9,9,9,1+i*8,0,9,9)
-    c.drawImage(images.icons,34,9,9,9,1+i*8,0,9,9)
-    c.drawImage(images.icons,16,0,9,9,1+i*8,10,9,9)
-    c.drawImage(images.icons,52,0,9,9,1+i*8,10,9,9)
-    c.drawImage(images.icons,16,27,9,9,102+i*8,10,9,9)
-    c.drawImage(images.icons,52,27,9,9,102+i*8,10,9,9)
+    c.drawImage(images.icons,16,9,9,9,left+i*iconStep,0,iconSize,iconSize)
+    c.drawImage(images.icons,34,9,9,9,left+i*iconStep,0,iconSize,iconSize)
+    c.drawImage(images.icons,16,0,9,9,left+i*iconStep,10,iconSize,iconSize)
+    c.drawImage(images.icons,52,0,9,9,left+i*iconStep,10,iconSize,iconSize)
+    c.drawImage(images.icons,16,27,9,9,right+i*iconStep,10,iconSize,iconSize)
+    c.drawImage(images.icons,52,27,9,9,right+i*iconStep,10,iconSize,iconSize)
   }
   c.drawImage(images.icons,0,64,182,5,1,22,182,5)
   c.drawImage(images.icons,0,69,84,5,1,22,84,5)
