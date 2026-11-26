@@ -1,3 +1,4 @@
+import { drawRolexLogo } from './rolex-logo.ts'
 import type { WatchMechanism, WatchPose, WatchPoint } from './rolex-model'
 import { drawWatchForeground, type WatchHandMask } from './rolex-hands.ts'
 import { drawRaisedWatchHand, type RaisedWatchHand } from './rolex-control.ts'
@@ -13,14 +14,6 @@ function metal(ctx: CanvasRenderingContext2D, x1: number, y1: number, x2: number
   const colors = gold ? ['#6d5529','#d9c58b','#fff7d7','#b5a06a','#f4e6b7','#7a673f'] : ['#39434b','#b0bbc5','#f8fbfd','#76818c','#d4dce1','#454e58']
   colors.forEach((color,i) => gradient.addColorStop(i/(colors.length-1),color))
   return gradient
-}
-function crown(ctx: CanvasRenderingContext2D, x: number, y: number, size: number, color: string) {
-  ctx.save(); ctx.translate(x,y); ctx.scale(size,size); ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = .08
-  ctx.beginPath(); ctx.moveTo(-.65,-.45); ctx.lineTo(-.42,.62); ctx.quadraticCurveTo(0,.84,.42,.62)
-  ctx.lineTo(.65,-.45); ctx.lineTo(.24,.32); ctx.lineTo(.32,-.78); ctx.lineTo(0,.25); ctx.lineTo(-.02,-.95)
-  ctx.lineTo(-.22,.28); ctx.lineTo(-.36,-.76); ctx.lineTo(-.27,.3); ctx.closePath(); ctx.stroke()
-  for (const [px,py] of [[-.65,-.45],[-.36,-.76],[-.02,-.95],[.32,-.78],[.65,-.45]]) { ctx.beginPath(); ctx.arc(px!,py!,.085,0,Math.PI*2); ctx.fill() }
-  ctx.beginPath(); ctx.ellipse(0,.63,.32,.1,0,0,Math.PI*2); ctx.stroke(); ctx.restore()
 }
 
 function bracelet(worn: boolean) {
@@ -59,7 +52,7 @@ function watchCase() {
   ctx.fillStyle = metal(ctx,1.03,0,1.3,0,true); rounded(ctx,1.04,-.14,.27,.28,.05); ctx.fill()
   ctx.strokeStyle = '#6e5834'; ctx.lineWidth = .012
   for (let x = 1.1; x < 1.3; x += .034) { ctx.beginPath(); ctx.moveTo(x,-.125); ctx.lineTo(x,.125); ctx.stroke() }
-  crown(ctx,1.3,0,.1,'#f1dfb1')
+  drawRolexLogo(ctx,1.3,0,.13,true,'#f1dfb1')
   const bezel = ctx.createRadialGradient(-.22,-.3,.7,0,0,1.065)
   for (const [position,color] of [[0,'#ae9968'],[.64,'#f9edc8'],[.76,'#af9762'],[.87,'#e6d5a5'],[.95,'#fff6d8'],[1,'#a58e5a']] as const) bezel.addColorStop(position,color)
   ctx.fillStyle = bezel; ctx.beginPath(); ctx.arc(0,0,1.06,0,Math.PI*2); ctx.fill()
@@ -90,8 +83,8 @@ function watchCase() {
     }
     ctx.fillStyle = '#318059'; ctx.fillRect(-.015,-.856,.03,.025); ctx.restore()
   }
-  crown(ctx,0,-.684,.107,'#e4d7a9')
-  ctx.textAlign = 'center'; ctx.fillStyle = '#4c9871'; ctx.font = 'bold .105px Georgia, serif'; ctx.fillText('ROLEX',0,-.43)
+  drawRolexLogo(ctx,0,-.57,.43,false,'#e4d7a9','#4c9871')
+  ctx.textAlign = 'center'
   ctx.fillStyle = '#f0f3e7'; ctx.font = '500 .038px Arial, sans-serif'; ctx.fillText('OYSTER PERPETUAL',0,-.355)
   ctx.font = '.028px Arial, sans-serif'; ctx.fillText('SUPERLATIVE CHRONOMETER',0,.39); ctx.fillText('OFFICIALLY CERTIFIED',0,.435)
   ctx.font = '.022px Arial, sans-serif'; ctx.fillText('SWISS MADE',0,.824)
@@ -138,9 +131,10 @@ export class RolexRenderer {
     this.ctx.setTransform(dpr,0,0,dpr,0,0)
   }
   previewPose(): WatchPose {
-    const small = this.width < 800, radius = Math.min(this.width*(small ? .235 : .14),this.height*.15)
+    const portrait = this.width < 800 && this.height > this.width
+    const radius = Math.min(this.width*(portrait ? .19 : .14),this.height*(portrait ? .105 : .15))
     const angle = -.055
-    return {x:this.width*(small ? .5 : .65),y:this.height*(small ? .58 : .54),a:Math.cos(angle)*radius,b:Math.sin(angle)*radius,c:-Math.sin(angle)*radius,d:Math.cos(angle)*radius,radius}
+    return {x:this.width*(portrait ? .5 : .68),y:this.height*(portrait ? .67 : .54),a:Math.cos(angle)*radius,b:Math.sin(angle)*radius,c:-Math.sin(angle)*radius,d:Math.cos(angle)*radius,radius}
   }
   render(video: HTMLVideoElement, live: boolean, pose: WatchPose | null, mechanism: WatchMechanism, time: number, opacity = 1, contact: WatchPoint | null = null, foreground: WatchHandMask[] = [], control: RaisedWatchHand | null = null) {
     const ctx = this.ctx, w = this.width, h = this.height

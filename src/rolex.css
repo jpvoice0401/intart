@@ -1,20 +1,88 @@
-.rolex-scene { position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate;background:#102c24;color:#eee9da; }
-.rolex-canvas { position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;outline:none; }.rolex-canvas:active { cursor:grabbing; }.rolex-canvas:focus-visible { box-shadow:inset 0 0 0 2px #d9c48b; }
-.rolex-video { position:absolute;width:1px;height:1px;opacity:0;pointer-events:none; }
-.rolex-vignette { position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#031c17b0,transparent 32%,transparent 65%,#041a15d4); }
-.rolex-heading { position:absolute;top:116px;left:4.2%;right:4.2%;z-index:2;display:flex;align-items:center;justify-content:space-between;pointer-events:none; }
-.rolex-brand { position:relative;text-align:center; }.rolex-brand>svg { display:block;width:33px;height:28px;margin:0 auto 6px;color:#cbb783; }.rolex-brand h1 { font:400 35px/1.05 Georgia,serif;letter-spacing:5px;color:#f6f0dd;margin:0; }.rolex-brand>span { font-size:7px;letter-spacing:3px;color:#bdcbb7;display:block;margin-top:10px; }
-.rolex-edition { text-align:right;font-size:8px;letter-spacing:2px;color:#d1d7c7;line-height:2; }.rolex-edition span { display:block;font-size:7px;letter-spacing:1.7px;color:#a5baab; }
-.rolex-live { position:absolute;top:238px;left:4.2%;z-index:2;display:flex;align-items:center;gap:8px;color:#d6e0d1;font-size:9px;pointer-events:none; }.rolex-live i { width:4px;height:4px;border-radius:50%;background:#d1bd80; }.rolex-scene.is-live .rolex-live i { background:#d1e5b0;box-shadow:0 0 10px #d1e5b059; }.rolex-tracking-state { padding:4px 7px;border:1px solid #cfddc527;border-radius:20px;font-size:7px;letter-spacing:1px;margin-left:7px; }
-.rolex-intro { position:absolute;left:8.5%;top:39%;width:320px;z-index:3;pointer-events:none; }.rolex-intro[hidden] { display:none; }.rolex-intro>span { font-size:7px;letter-spacing:2.2px;color:#c7cba8; }.rolex-intro h2 { margin:22px 0 17px;font-size:clamp(25px,2.65vw,37px);font-weight:400;letter-spacing:-1.6px;line-height:1.65; }.rolex-intro h2 em { color:#e4d5a1;font-style:normal; }.rolex-intro p { margin:0 0 29px;font-size:10px;line-height:2.15;color:#b8cbbd; }
-.rolex-start { pointer-events:auto;background:#d8c797;border:1px solid #e4d8b5;border-radius:2px;color:#133b2d;min-height:45px;padding:11px 22px;display:inline-flex;align-items:center;gap:35px;font:600 9px/1.5 var(--font-sans);letter-spacing:1.5px;cursor:pointer; }.rolex-start:hover { background:#eddfb9; }.rolex-start>span { font-size:19px;font-weight:400; }.rolex-start:disabled { opacity:.6;cursor:wait; }.rolex-intro small { display:block;font-size:8px;color:#99b2a3;margin-top:12px; }
-.rolex-status { position:absolute;bottom:145px;left:15%;right:15%;margin:0;text-align:center;font-size:10px;line-height:1.9;color:#dbe4d3;z-index:3;pointer-events:none;text-shadow:0 1px 8px #06251a; }
-.rolex-footer { position:absolute;bottom:57px;left:4.2%;right:4.2%;z-index:4;display:flex;justify-content:space-between;align-items:center;gap:22px; }.rolex-guide { display:flex;gap:24px;font-size:9px;color:#cfdbcd;line-height:1.8; }.rolex-guide b { display:block;font-weight:400;font-size:8px;letter-spacing:1px;margin-bottom:6px;color:#a4b69c; }
-.rolex-tools { display:flex;align-items:center;gap:4px;padding:8px;border:1px solid #d2d4ab2e;background:#092d24d9;backdrop-filter:blur(16px);border-radius:4px; }.rolex-tools button { font-size:8px;letter-spacing:.6px;padding:10px 11px;min-height:36px;border:0;background:transparent;color:#e2e5cd;cursor:pointer;border-radius:2px;white-space:nowrap; }.rolex-tools button:hover,.rolex-tools button[aria-pressed=true] { background:#c1cfa314; }.rolex-tools .rolex-camera { border:1px solid #e3d39a3b;margin-left:4px; }.rolex-tools .rolex-labels { font:italic 16px Georgia,serif;padding:8px; }.rolex-rate { padding:0 12px 0 7px;border-right:1px solid #d2d4ab29;font-size:6px;letter-spacing:.7px;color:#b4c6aa;white-space:nowrap; }.rolex-rate b { display:block;font-size:16px;font-weight:400;letter-spacing:0;color:#e3d8b3;font-variant-numeric:tabular-nums;margin-bottom:3px; }
-.rolex-bottom { position:absolute;bottom:19px;left:4.2%;right:4.2%;z-index:2;display:flex;justify-content:space-between;pointer-events:none;font-size:7px;letter-spacing:2px;color:#92aa97; }
-.rolex-hide-labels .rolex-intro h2,.rolex-hide-labels .rolex-intro p,.rolex-hide-labels .rolex-intro small,.rolex-hide-labels .rolex-live-copy,.rolex-hide-labels .rolex-status,.rolex-hide-labels .rolex-guide { display:none; }.rolex-hide-labels .rolex-intro>span { display:block;margin-bottom:25px; }
-.lab-shell[data-experiment=rolex] .experiment-tabs { background:#082c23eb;border-color:#d2d4ab30; }.lab-shell[data-experiment=rolex] .experiment-tab[aria-selected=true] { background:#d7c693;color:#193c2e; }
-.lab-shell.rolex-hide-labels .lab-brand small,.lab-shell.rolex-hide-labels .lab-note,.lab-shell.rolex-hide-labels .experiment-tab:not([data-experiment=rolex]):not([data-experiment=snow]):not([data-experiment=watertouch]):not([data-experiment=sixflags]) span { display:none; }.lab-shell.rolex-hide-labels .experiment-tab svg { display:block; }.lab-shell.rolex-hide-labels .experiment-menu-hint { font-size:0; }.lab-shell.rolex-hide-labels .experiment-menu-hint::before { content:'MENU ⌄';font-size:10px; }
-@media(max-width:1100px) { .rolex-footer { flex-direction:column;align-items:flex-start;gap:16px;bottom:48px; }.rolex-tools { align-self:flex-end; }.rolex-status { bottom:188px; }.rolex-intro { left:5%;width:280px; }.rolex-guide { gap:22px; } }
-@media(max-width:799px) { .rolex-heading { top:91px;left:24px;right:24px; }.rolex-brand>svg { width:26px;height:23px; }.rolex-brand h1 { font-size:27px;letter-spacing:4px; }.rolex-brand>span { font-size:6px;letter-spacing:2px; }.rolex-edition { font-size:6px;letter-spacing:1px; }.rolex-edition span { font-size:5px;letter-spacing:1px; }.rolex-live { top:193px;left:24px;font-size:8px; }.rolex-live-copy { max-width:185px; }.rolex-intro { top:26%;left:24px;width:calc(100% - 48px);text-align:center; }.rolex-intro>span { font-size:6px;letter-spacing:1.5px; }.rolex-intro h2 { font-size:23px;line-height:1.5;margin:10px 0 12px; }.rolex-intro p,.rolex-intro small { display:none; }.rolex-start { min-height:38px;padding:7px 16px;font-size:8px;gap:20px; }.rolex-start>span { font-size:15px; }.rolex-footer { left:20px;right:20px;bottom:42px;gap:13px; }.rolex-guide { width:100%;justify-content:space-between;gap:10px;font-size:7px; }.rolex-guide b { font-size:7px;margin-bottom:3px; }.rolex-tools { width:100%;justify-content:space-between;padding:6px;gap:2px; }.rolex-tools button { font-size:7px;padding:8px 7px; }.rolex-tools .rolex-camera { margin-left:1px; }.rolex-rate { padding:0 8px 0 4px;font-size:5px; }.rolex-rate b { font-size:14px; }.rolex-status { left:20px;right:20px;bottom:167px;font-size:8px; }.rolex-bottom { left:20px;right:20px;bottom:15px;font-size:6px;letter-spacing:1px; }.rolex-bottom>span:last-child { display:none; } }
-@media(max-height:650px) { .rolex-heading { top:90px; }.rolex-brand h1 { font-size:26px; }.rolex-brand>svg { width:25px;height:21px; }.rolex-live { top:185px; }.rolex-intro { top:40%; }.rolex-intro h2 { font-size:23px;margin:12px 0; }.rolex-intro p,.rolex-intro small { display:none; }.rolex-guide { display:none; }.rolex-status { bottom:111px; }.rolex-footer { bottom:41px; }.rolex-bottom { bottom:13px; } }
+.rolex-scene {
+  position:relative; width:100%; height:100%; overflow:hidden; isolation:isolate;
+  display:grid; grid-template-rows:auto minmax(0,1fr) auto; gap:20px;
+  padding:112px 4.2% max(24px,env(safe-area-inset-bottom)); background:#102c24; color:#eee9da;
+}
+.rolex-canvas { position:absolute; inset:0; width:100%; height:100%; touch-action:none; cursor:grab; outline:none; }
+.rolex-canvas:active { cursor:grabbing; }
+.rolex-canvas:focus-visible { box-shadow:inset 0 0 0 2px #d9c48b; }
+.rolex-video { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+.rolex-vignette { position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg,#031c17b0,transparent 32%,transparent 65%,#041a15d4); }
+.rolex-scene [hidden] { display:none!important; }
+.rolex-heading,.rolex-intro,.rolex-footer { position:relative; z-index:2; min-width:0; pointer-events:none; }
+.rolex-heading { grid-row:1; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.rolex-brand { margin:0; width:130px; flex:none; line-height:0; }
+.rolex-brand img { display:block; width:100%; height:auto; }
+.rolex-live { display:none; align-items:center; justify-content:flex-end; gap:12px; max-width:60%; color:#d6e0d1; font-size:12px; line-height:1.7; text-align:right; }
+.is-live .rolex-live { display:flex; }
+.rolex-tracking-state { flex:none; padding:5px 9px; border:1px solid #cfddc53d; border-radius:20px; font-size:11px; }
+.rolex-intro { grid-row:2; align-self:center; margin-left:4.5%; width:min(360px,40%); max-height:100%; overflow-y:auto; overscroll-behavior:contain; }
+.rolex-intro h2 { margin:0 0 20px; font-size:clamp(28px,2.65vw,38px); font-weight:400; letter-spacing:-.055em; line-height:1.55; }
+.rolex-intro h2 em { color:#e4d5a1; font-style:normal; }
+.rolex-intro p { margin:0 0 24px; font-size:14px; line-height:1.9; color:#b8cbbd; }
+.rolex-scene button { pointer-events:auto; font:inherit; cursor:pointer; }
+.rolex-scene button:focus-visible { outline:2px solid #f7e4af; outline-offset:4px; }
+.rolex-start { background:#d8c797; border:1px solid #e4d8b5; border-radius:3px; color:#133b2d; min-height:48px; padding:12px 28px; font-size:14px!important; font-weight:600!important; }
+.rolex-start:hover { background:#eddfb9; }
+.rolex-start:disabled { opacity:.6; cursor:wait; }
+.rolex-intro small { display:block; font-size:12px; line-height:1.6; color:#99b2a3; margin-top:14px; }
+.rolex-footer { grid-row:3; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:24px; }
+.rolex-status { margin:0; max-width:440px; font-size:13px; line-height:1.8; color:#dbe4d3; text-shadow:0 1px 8px #06251a; overflow-wrap:anywhere; }
+.rolex-tools { display:flex; align-items:center; gap:4px; padding:8px; border:1px solid #d2d4ab2e; background:#092d24ed; backdrop-filter:blur(16px); border-radius:5px; pointer-events:auto; }
+.rolex-tools button { font-size:12px; line-height:1.5; padding:10px 12px; min-height:42px; border:0; background:transparent; color:#e2e5cd; border-radius:3px; white-space:nowrap; }
+.rolex-tools button:hover,.rolex-tools button[aria-pressed=true] { background:#c1cfa314; }
+.rolex-tools .rolex-camera { display:none; border:1px solid #e3d39a3b; margin-left:4px; }
+.is-live .rolex-camera,.is-busy .rolex-camera,.rolex-hide-labels .rolex-camera { display:block; }
+.rolex-rate { padding:0 12px 0 6px; border-right:1px solid #d2d4ab29; font-size:10px; color:#b4c6aa; white-space:nowrap; }
+.rolex-rate b { display:inline-block; margin-right:5px; font-size:20px; font-weight:400; color:#e3d8b3; font-variant-numeric:tabular-nums; }
+.rolex-hide-labels .rolex-intro,.rolex-hide-labels .rolex-live-copy,.rolex-hide-labels .rolex-status { visibility:hidden; }
+.lab-shell[data-experiment=rolex] .experiment-tabs { background:#082c23eb; border-color:#d2d4ab30; }
+.lab-shell[data-experiment=rolex] .experiment-tab[aria-selected=true] { background:#d7c693; color:#193c2e; }
+@media(max-width:1000px) {
+  .rolex-footer { grid-template-columns:1fr; gap:12px; }
+  .rolex-tools { justify-self:end; }
+  .rolex-intro { margin-left:0; width:45%; }
+}
+@media(max-width:799px) and (orientation:portrait) {
+  .rolex-scene { padding:92px 22px max(20px,env(safe-area-inset-bottom)); gap:16px; }
+  .rolex-brand { width:90px; }
+  .rolex-live { max-width:65%; flex-direction:column; gap:4px; align-items:flex-end; font-size:11px; }
+  .rolex-intro { width:100%; align-self:start; text-align:center; }
+  .rolex-intro h2 { font-size:26px; line-height:1.45; margin:0 0 12px; }
+  .rolex-intro h2 br { display:none; }
+  .rolex-intro p { font-size:12px; line-height:1.8; margin-bottom:14px; }
+  .rolex-start { min-height:42px; padding:9px 24px; font-size:13px!important; }
+  .rolex-intro small { font-size:10px; margin-top:10px; }
+  .rolex-status { font-size:11px; text-align:center; max-width:none; max-height:5.4em; overflow-y:auto; pointer-events:auto; }
+  .rolex-tools { width:100%; justify-content:space-between; padding:6px; gap:2px; }
+  .rolex-tools button { font-size:11px; min-height:40px; padding:8px; }
+  .rolex-tools .rolex-camera { margin-left:0; }
+  .rolex-rate { padding:0 7px 0 3px; font-size:9px; }
+  .rolex-rate b { display:block; font-size:17px; margin-right:0; }
+}
+@media(max-height:620px) {
+  .rolex-scene { padding-top:88px; padding-bottom:16px; gap:12px; }
+  .rolex-brand { width:88px; }
+  .rolex-intro h2 { font-size:26px; line-height:1.4; margin-bottom:12px; }
+  .rolex-intro p { font-size:12px; line-height:1.7; margin-bottom:14px; }
+  .rolex-intro small { font-size:10px; margin-top:8px; }
+  .rolex-footer { grid-template-columns:minmax(0,1fr) auto; gap:12px; }
+  .rolex-status { font-size:11px; }
+  .rolex-tools { padding:5px; }
+  .rolex-tools button { min-height:36px; padding:8px; font-size:11px; }
+}
+@media(max-height:420px) and (orientation:landscape) {
+  .rolex-scene { grid-template-rows:minmax(0,1fr) auto; padding-top:88px; gap:10px; }
+  .rolex-heading { position:absolute; right:4.2%; top:92px; }
+  .rolex-brand { width:74px; }
+  .rolex-live-copy { display:none; }
+  .rolex-intro { grid-row:1; width:47%; }
+  .rolex-intro h2 { font-size:22px; margin-bottom:8px; }
+  .rolex-intro p { font-size:11px; margin-bottom:10px; }
+  .rolex-start { min-height:36px; padding:7px 22px; font-size:12px!important; }
+  .rolex-intro small { display:none; }
+  .rolex-footer { grid-row:2; }
+  .rolex-status { font-size:10px; }
+  .rolex-rate { font-size:9px; padding:0 8px 0 3px; }
+  .rolex-rate b { font-size:16px; }
+}
